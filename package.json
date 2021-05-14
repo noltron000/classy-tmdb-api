@@ -3,8 +3,10 @@
 	"version": "3.0.0",
 	"description": "An api-wrapper for the-movie-db api v3. It returns javascript classes for its various imports and fetch calls.",
 	"main": "main.js",
+	"type": "module",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"start": "node ./source/main.js",
+		"test": "node ./source/test.js"
 	},
 	"repository": {
 		"type": "git",
