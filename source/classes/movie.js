@@ -1,15 +1,15 @@
-class List { }
-class Resource { }
-class Image { }
-class Video { }
-class Collection { }
-class Company { }
-class Country { }
-class Genre { }
-class Language { }
-class Release { }
-class Review { }
-class PopularOpinion { }
+import List from './list.js'
+import Resource from './resource.js'
+import Image from './image.js'
+import Video from './video.js'
+import Collection from './collection.js'
+import Company from './company.js'
+import Country from './country.js'
+import Genre from './genre.js'
+import Language from './language.js'
+import PopularOpinion from './popular-opinion.js'
+import Release from './release.js'
+import Review from './review.js'
 
 class Movie {
 	constructor ( ) {
