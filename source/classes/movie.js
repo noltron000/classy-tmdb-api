@@ -105,11 +105,11 @@ class Movie {
 		data.genres && this.genres.add(...data.genres)
 
 		/*** ⚠️ TODO *******************************************
-		this.collections ??= new List(Collection)
-		this.releases ??= new List(Release)
-		this.languages ??= new List(Language)
-		this.productionCompanies ??= new List(Company)
-		this.productionCountries ??= new List(Country)
+		data.belongs_to_collection && this.collections.add(data.belongs_to_collection)
+		// data.release_date && this.releases.add(data.release_date) // ⚠️ convert input to date-time string
+		data.spoken_languages && this.languages.add(...data.spoken_languages)
+		data.production_companies && this.productionCompanies.add(...data.production_companies)
+		data.production_countries && this.productionCountries.add(...data.production_countries)
 
 		// References to other fetchable resources.
 		this.posters ??= new Resource(Image)
