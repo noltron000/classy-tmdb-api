@@ -101,9 +101,10 @@ class Movie {
 		this.revenue = data.revenue
 		this.popularity = data.popularity
 
-		/*** ⚠️ TOOD *******************************************
 		// References to other resources.
-		this.genres ??= new List(Genre)
+		data.genres && this.genres.add(...data.genres)
+
+		/*** ⚠️ TODO *******************************************
 		this.collections ??= new List(Collection)
 		this.releases ??= new List(Release)
 		this.languages ??= new List(Language)
