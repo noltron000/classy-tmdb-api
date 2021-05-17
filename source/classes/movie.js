@@ -106,11 +106,10 @@ class Movie {
 		data.belongs_to_collection && this.collections.add(data.belongs_to_collection)
 		// data.release_date && this.releases.add(data.release_date) // ⚠️ convert input to date-time string
 		data.spoken_languages && this.languages.add(...data.spoken_languages)
-
-		/*** ⚠️ TODO *******************************************
 		data.production_companies && this.productionCompanies.add(...data.production_companies)
 		data.production_countries && this.productionCountries.add(...data.production_countries)
 
+		/*** ⚠️ TODO *******************************************
 		// References to other fetchable resources.
 		this.posters ??= new Resource(Image)
 		this.backdrops ??= new Resource(Image)
