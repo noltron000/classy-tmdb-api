@@ -1,4 +1,4 @@
-import Image from './image.js'
+import {Logo} from './image.js'
 import Country from './country.js'
 
 
@@ -20,7 +20,7 @@ class Company {
 		this.homepage ??= null
 		this.headquarters ??= null
 
-		this.logo ??= new Image( )
+		this.logo ??= new Logo( )
 		this.originCountry ??= new Country( )
 		this.parentCompany ??= null
 	}

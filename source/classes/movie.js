@@ -1,6 +1,6 @@
 import List from './list.js'
 import Resource from './resource.js'
-import Image from './image.js'
+import {Poster, Backdrop} from './image.js'
 import Video from './video.js'
 import Collection from './collection.js'
 import Company from './company.js'
@@ -63,8 +63,8 @@ class Movie {
 		this.productionCountries ??= new List(Country)
 
 		// References to other fetchable resources.
-		this.posters ??= new Resource(Image)
-		this.backdrops ??= new Resource(Image)
+		this.posters ??= new Resource(Poster)
+		this.backdrops ??= new Resource(Backdrop)
 		this.videos ??= new Resource(Video)
 		this.reviews ??= new Resource(Review)
 
@@ -109,10 +109,11 @@ class Movie {
 		data.production_companies && this.productionCompanies.add(...data.production_companies)
 		data.production_countries && this.productionCountries.add(...data.production_countries)
 
-		/*** ⚠️ TODO *******************************************
 		// References to other fetchable resources.
-		this.posters ??= new Resource(Image)
-		this.backdrops ??= new Resource(Image)
+		data.poster_path && this.posters.addMain(data.poster_path)
+		data.backdrop_path && this.backdrops.addMain(data.backdrop_path)
+
+		/*** ⚠️ TODO *******************************************
 		this.videos ??= new Resource(Video)
 		this.reviews ??= new Resource(Review)
 
