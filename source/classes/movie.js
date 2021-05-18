@@ -114,9 +114,9 @@ class Movie {
 
 		// References to other resources.
 		// These have a main value found from the movie.
-		this.backdrops.setMain(movie.backdrop_path) // ⚠️ TODO: improve class
+		this.backdrops.setMain({file_path: movie.backdrop_path})
 		this.languages.setMain({iso_639_1: movie.original_language})
-		this.posters.setMain(movie.poster_path)     // ⚠️ TODO: improve class
+		this.posters.setMain({file_path: movie.poster_path})
 		this.releases.setMain(movie.release_date)   // ⚠️ TODO: improve class
 
 		// Add data from movie source.

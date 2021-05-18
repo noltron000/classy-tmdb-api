@@ -1,4 +1,5 @@
 import config from '../config.js'
+import PopularOpinion from './popular-opinion.js'
 
 class Image {
 	constructor (type, data) {
@@ -12,23 +13,33 @@ class Image {
 	/* STEP 1: INITIALIZE CLASS STRUCTURE */
 	assignDefaults ( ) {
 		this.basePath ??= null
-		this.variants ??= [ ]
+		this['iso639-1'] ??= null
+		this.originalWidth ??= null
+		this.originalHeight ??= null
+
+		this.ratings ??= new PopularOpinion( )
+		this.sizes ??= [ ]
 	}
 
 	/* STEP 2: CLEAN INPUT DATA */
 	assignFromApi (data) {
-		this.basePath = data
+		this.basePath = data.file_path
+		this['iso639-1'] = data.iso_639_1
+		this.originalWidth = data.width
+		this.originalHeight = data.height
+
+		this.ratings.assignFromApi(data)
 
 		const regex = /^\/https?:\/\//
 		if (regex.test(this.basePath)) {
-			this.variants.push({
+			this.sizes.push({
 				facet: 'external',
 				size: null,
 				url: this.basePath.slice(1),
 			})
 		}
 		else {
-			this.variants.push(
+			this.sizes.push(
 				...config
 				.images[`${this.type}Sizes`]
 				.map((imageSize) => {
@@ -49,6 +60,16 @@ class Image {
 
 		// Clean up class data.
 		this.assignDefaults( )
+	}
+
+	get aspectRatio ( ) {
+		return this.originalWidth / this.originalHeight
+	}
+
+	toJSON ( ) {
+		const json = Object.assign({ }, this)
+		json.aspectRatio = this.aspectRatio
+		return json
 	}
 }
 
