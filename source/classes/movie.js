@@ -99,7 +99,7 @@ class Movie {
 		if (movie.title !== movie.original_title) {
 			this.originalTitle = movie.original_title
 		}
-		this.runtime = convertToEasyDuration(movie.runtime)
+		this.runtime = convertToEasyDuration(movie.runtime * 60)
 
 		// Categorical movie information.
 		this.isAdult = movie.adult
