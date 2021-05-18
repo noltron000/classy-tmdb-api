@@ -116,9 +116,7 @@ class Movie {
 		// this.releases.add(data.release_date) // ⚠️ requires another fetch
 
 		// Popular Opinion for ratings histogram etc.
-		/*** ⚠️ TODO ******************************************
-		this.ratings ??= new PopularOpinion( )
-		*******************************************************/
+		data.vote_count && data.vote_average && this.ratings.assignFromApi(data)
 
 		this.assignDefaults( )
 	}
