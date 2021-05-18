@@ -1,3 +1,4 @@
+import {convertToEasyDuration} from '../helpers/conversions.js'
 import List from './list.js'
 import Resource from './resource.js'
 import {Poster, Backdrop} from './image.js'
@@ -88,7 +89,7 @@ class Movie {
 		}
 		// this.originalLanguage // ⚠️ see this.languages.main
 		// this.releaseDate // ⚠️ see this.releases.main
-		// this.runtime = null // ⚠️ convert input to date-time string
+		this.runtime = convertToEasyDuration(data.runtime)
 
 		// Categorical movie information.
 		this.isAdult = data.adult

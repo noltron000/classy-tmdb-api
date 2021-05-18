@@ -64,7 +64,55 @@ const convertToVulgarFraction = (decimal = null) => {
 	return vulgarNumber
 }
 
+
+
+const convertToEasyDate = (inputDate = null) => {
+	let day = null
+	let month = null
+	let year = null
+	let stamp = null
+
+	if (inputDate === null) {
+		return {day, month, year, stamp}
+	}
+
+	// Keep input data
+	stamp = inputDate
+	// Get day, month, and year.
+	day = inputDate.getDay( )
+	month = inputDate.toLocaleString('default', {month: 'long'})
+	year = inputDate.getFullYear( )
+	// Return the easy trio of date data.
+	return {day, month, year, stamp}
+}
+
+
+
+const convertToEasyDuration = (totalSeconds) => {
+	let seconds = null
+	let minutes = null
+	let hours = null
+	let stamp = null
+
+	if (totalSeconds === null) {
+		return {seconds, minutes, hours, stamp}
+	}
+
+	// Keep input data
+	stamp = totalSeconds
+	// Get time in hours, minutes, and seconds.
+	seconds = totalSeconds % 60
+	minutes = Math.floor(totalSeconds / 60) % 60
+	hours = Math.floor(totalSeconds / 3600)
+	// Return the easy trio of duration data..
+	return {hours, minutes, seconds, stamp}
+}
+
+
+
 export {
+	convertToEasyDate,
+	convertToEasyDuration,
 	convertToStarGrade,
 	convertToVulgarFraction,
 }
