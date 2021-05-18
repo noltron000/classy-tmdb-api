@@ -1,11 +1,12 @@
-class List extends Array {
-	constructor (ItemType, ...entries) {
-		super(...entries)
+class List {
+	constructor (ItemType, ...values) {
+		this.values = [ ]
 		this.ItemType = ItemType
+		this.add(...values)
 	}
 
 	add (...values) {
-		this.push(...values.map((value) => (
+		this.values.push(...values.map((value) => (
 			new this.ItemType(value)
 		)))
 	}
