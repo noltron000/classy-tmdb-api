@@ -1,5 +1,4 @@
 import config from '../config.js'
-console.log(config)
 
 class Image {
 	constructor (type, data) {

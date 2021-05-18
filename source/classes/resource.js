@@ -36,7 +36,6 @@ class Resource extends List {
 	}
 
 	addMain (value) {
-		console.log(value)
 		this.main = new this.ItemType(value)
 	}
 }
