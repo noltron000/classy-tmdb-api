@@ -57,7 +57,7 @@ const data = {
 }
 
 const main = ( ) => {
-	const movie = new Movie(data, 'api')
+	const movie = new Movie({movie: data})
 	console.info((JSON.stringify(movie, null, '  ')))
 }
 

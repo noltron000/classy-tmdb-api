@@ -19,10 +19,10 @@ Types of Movie Data:
 */
 
 class Movie {
-	constructor (data, source) {
+	constructor ({movie}) {
 		this.assignDefaults( )
-		if (data && source === 'api') {
-			this.assignFromApi(data)
+		if (movie) {
+			this.assignFromApi({movie})
 		}
 	}
 
@@ -73,51 +73,51 @@ class Movie {
 		this.ratings ??= new PopularOpinion( )
 	}
 
-	/* STEP 2: CLEAN INPUT DATA */
-	assignFromApi (data) {
+	/* STEP 2: CLEAN INPUT movie */
+	assignFromApi ({movie}) {
 		// External identification.
-		this.ids.api = data.id
-		this.ids.imdb = data.imdb_id
+		this.ids.api = movie.id
+		this.ids.imdb = movie.imdb_id
 
-		this.title = data.title
-		this.tagline = data.tagline
-		this.overview = data.overview
+		this.title = movie.title
+		this.tagline = movie.tagline
+		this.overview = movie.overview
 
 		// Detailed movie information.
-		if (data.title !== data.original_title) {
-			this.originalTitle = data.original_title
+		if (movie.title !== movie.original_title) {
+			this.originalTitle = movie.original_title
 		}
 		// this.originalLanguage // ⚠️ see this.languages.main
 		// this.releaseDate // ⚠️ see this.releases.main
-		this.runtime = convertToEasyDuration(data.runtime)
+		this.runtime = convertToEasyDuration(movie.runtime)
 
 		// Categorical movie information.
-		this.isAdult = data.adult
-		this.isVideo = data.video
-		this.status = data.status
+		this.isAdult = movie.adult
+		this.isVideo = movie.video
+		this.status = movie.status
 
 		// Trivial movie information.
-		this.homepage = data.homepage
-		this.budget = data.budget
-		this.revenue = data.revenue
-		this.popularity = data.popularity
+		this.homepage = movie.homepage
+		this.budget = movie.budget
+		this.revenue = movie.revenue
+		this.popularity = movie.popularity
 
 		// References to other resources.
-		data.genres && this.genres.add(...data.genres)
-		data.belongs_to_collection && this.collections.add(data.belongs_to_collection)
-		data.spoken_languages && this.languages.add(...data.spoken_languages)
-		data.production_companies && this.productionCompanies.add(...data.production_companies)
-		data.production_countries && this.productionCountries.add(...data.production_countries)
+		movie.genres && this.genres.add(...movie.genres)
+		movie.belongs_to_collection && this.collections.add(movie.belongs_to_collection)
+		movie.spoken_languages && this.languages.add(...movie.spoken_languages)
+		movie.production_companies && this.productionCompanies.add(...movie.production_companies)
+		movie.production_countries && this.productionCountries.add(...movie.production_countries)
 
 		// References to other fetchable resources.
-		data.poster_path && this.posters.addMain(data.poster_path)
-		data.backdrop_path && this.backdrops.addMain(data.backdrop_path)
+		movie.poster_path && this.posters.addMain(movie.poster_path)
+		movie.backdrop_path && this.backdrops.addMain(movie.backdrop_path)
 		// this.videos ??= new Resource(Video) // ⚠️ requires another fetch
 		// this.reviews ??= new Resource(Review) // ⚠️ requires another fetch
-		// this.releases.add(data.release_date) // ⚠️ requires another fetch
+		// this.releases.add(movie.release_date) // ⚠️ requires another fetch
 
 		// Popular Opinion for ratings histogram etc.
-		data.vote_count && data.vote_average && this.ratings.assignFromApi(data)
+		movie.vote_count && movie.vote_average && this.ratings.assignFromApi(movie)
 
 		this.assignDefaults( )
 	}
