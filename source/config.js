@@ -1,8 +1,9 @@
-class Country {
+class Config {
 	constructor (data) {
 		this.assignDefaults( )
 		this.assignFromApi(data)
 	}
+
 	/* STEP 1: INITIALIZE CLASS STRUCTURE */
 	assignDefaults ( ) { }
 
@@ -13,4 +14,4 @@ class Country {
 	}
 }
 
-export default Country
+export default Config
