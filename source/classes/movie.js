@@ -46,8 +46,6 @@ class Movie {
 
 		// Detailed movie information.
 		this.originalTitle ??= null
-		// this.originalLanguage ??= null // ⚠️ see this.languages.main
-		// this.releaseDate ??= null // ⚠️ see this.releases.main
 		this.runtime ??= null
 
 		// Categorical movie information.
@@ -116,10 +114,10 @@ class Movie {
 
 		// References to other resources.
 		// These have a main value found from the movie.
-		this.backdrops.setMain(movie.backdrop_path)
+		this.backdrops.setMain(movie.backdrop_path) // ⚠️ TODO: improve class
 		this.languages.setMain({iso_639_1: movie.original_language})
-		this.posters.setMain(movie.poster_path)
-		this.releases.setMain(movie.release_date)
+		this.posters.setMain(movie.poster_path)     // ⚠️ TODO: improve class
+		this.releases.setMain(movie.release_date)   // ⚠️ TODO: improve class
 
 		// Add data from movie source.
 		this.genres.add(...movie.genres ?? [ ])
@@ -127,13 +125,13 @@ class Movie {
 		this.productionCountries.add(...movie.production_countries ?? [ ])
 
 		// These are enhanced via a secondary request.
-		this.collections.add(...collections ?? movie.belongs_to_collection ?? [ ])
-		this.productionCompanies.add(...companies ?? movie.production_companies ?? [ ])
+		this.collections.add(...collections ?? movie.belongs_to_collection ?? [ ])      // ⚠️ TODO: improve class
+		this.productionCompanies.add(...companies ?? movie.production_companies ?? [ ]) // ⚠️ TODO: improve class
 
 		// These are only accessible via a secondary request.
-		this.releases.add(releases)
-		this.reviews.add(reviews)
-		this.videos.add(videos)
+		this.releases.add(releases) // ⚠️ TODO: improve class
+		this.reviews.add(reviews)   // ⚠️ TODO: improve class
+		this.videos.add(videos)     // ⚠️ TODO: improve class
 
 		// Popular Opinion for ratings histogram etc.
 		this.ratings.assignFromApi({movie})
