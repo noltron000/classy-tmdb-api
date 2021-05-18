@@ -116,10 +116,10 @@ class Movie {
 
 		// References to other resources.
 		// These have a main value found from the movie.
-		this.backdrops.main = movie.backdrop_path
-		this.languages.main = {iso_639_1: movie.original_language}
-		this.posters.main = movie.poster_path
-		this.releases.main = movie.release_date
+		this.backdrops.setMain(movie.backdrop_path)
+		this.languages.setMain({iso_639_1: movie.original_language})
+		this.posters.setMain(movie.poster_path)
+		this.releases.setMain(movie.release_date)
 
 		// Add data from movie source.
 		this.genres.add(...movie.genres ?? [ ])
