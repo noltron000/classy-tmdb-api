@@ -57,7 +57,6 @@ class Movie {
 		// References to other resources.
 		this.genres ??= new List(Genre)
 		this.collections ??= new List(Collection)
-		this.releases ??= new List(Release)
 		this.languages ??= new List(Language)
 		this.productionCompanies ??= new List(Company)
 		this.productionCountries ??= new List(Country)
@@ -67,6 +66,7 @@ class Movie {
 		this.backdrops ??= new Resource(Backdrop)
 		this.videos ??= new Resource(Video)
 		this.reviews ??= new Resource(Review)
+		this.releases ??= new Resource(Release)
 
 		// Popular Opinion for ratings histogram etc.
 		this.ratings ??= new PopularOpinion( )
@@ -104,7 +104,6 @@ class Movie {
 		// References to other resources.
 		data.genres && this.genres.add(...data.genres)
 		data.belongs_to_collection && this.collections.add(data.belongs_to_collection)
-		// data.release_date && this.releases.add(data.release_date) // ⚠️ convert input to date-time string
 		data.spoken_languages && this.languages.add(...data.spoken_languages)
 		data.production_companies && this.productionCompanies.add(...data.production_companies)
 		data.production_countries && this.productionCountries.add(...data.production_countries)
@@ -112,12 +111,12 @@ class Movie {
 		// References to other fetchable resources.
 		data.poster_path && this.posters.addMain(data.poster_path)
 		data.backdrop_path && this.backdrops.addMain(data.backdrop_path)
-
-		/*** ⚠️ TODO *******************************************
-		this.videos ??= new Resource(Video)
-		this.reviews ??= new Resource(Review)
+		// this.videos ??= new Resource(Video) // ⚠️ requires another fetch
+		// this.reviews ??= new Resource(Review) // ⚠️ requires another fetch
+		// this.releases.add(data.release_date) // ⚠️ requires another fetch
 
 		// Popular Opinion for ratings histogram etc.
+		/*** ⚠️ TODO ******************************************
 		this.ratings ??= new PopularOpinion( )
 		*******************************************************/
 
