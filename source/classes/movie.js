@@ -1,6 +1,5 @@
 import {convertToEasyDuration} from '../helpers/conversions.js'
 import List from './list.js'
-import Resource from './resource.js'
 import {Poster, Backdrop} from './image.js'
 import Video from './video.js'
 import Collection from './collection.js'
@@ -19,7 +18,14 @@ Types of Movie Data:
 */
 
 class Movie {
-	constructor ({movie}) {
+	constructor ({
+		movie,
+		collections,
+		companies,
+		videos,
+		reviews,
+		releases,
+	}) {
 		this.assignDefaults( )
 		if (movie) {
 			this.assignFromApi({movie})
@@ -56,25 +62,33 @@ class Movie {
 		this.popularity ??= null
 
 		// References to other resources.
-		this.genres ??= new List(Genre)
-		this.collections ??= new List(Collection)
+		this.backdrops ??= new List(Backdrop)
 		this.languages ??= new List(Language)
-		this.productionCompanies ??= new List(Company)
+		this.posters ??= new List(Poster)
+		this.releases ??= new List(Release)
+
+		this.genres ??= new List(Genre)
 		this.productionCountries ??= new List(Country)
 
-		// References to other fetchable resources.
-		this.posters ??= new Resource(Poster)
-		this.backdrops ??= new Resource(Backdrop)
-		this.videos ??= new Resource(Video)
-		this.reviews ??= new Resource(Review)
-		this.releases ??= new Resource(Release)
+		this.collections ??= new List(Collection)
+		this.productionCompanies ??= new List(Company)
+
+		this.reviews ??= new List(Review)
+		this.videos ??= new List(Video)
 
 		// Popular Opinion for ratings histogram etc.
 		this.ratings ??= new PopularOpinion( )
 	}
 
 	/* STEP 2: CLEAN INPUT movie */
-	assignFromApi ({movie}) {
+	assignFromApi ({
+		movie,
+		collections,
+		companies,
+		videos,
+		reviews,
+		releases,
+	}) {
 		// External identification.
 		this.ids.api = movie.id
 		this.ids.imdb = movie.imdb_id
@@ -87,8 +101,6 @@ class Movie {
 		if (movie.title !== movie.original_title) {
 			this.originalTitle = movie.original_title
 		}
-		// this.originalLanguage // ⚠️ see this.languages.main
-		// this.releaseDate // ⚠️ see this.releases.main
 		this.runtime = convertToEasyDuration(movie.runtime)
 
 		// Categorical movie information.
@@ -103,22 +115,30 @@ class Movie {
 		this.popularity = movie.popularity
 
 		// References to other resources.
-		movie.genres && this.genres.add(...movie.genres)
-		movie.belongs_to_collection && this.collections.add(movie.belongs_to_collection)
-		movie.spoken_languages && this.languages.add(...movie.spoken_languages)
-		movie.production_companies && this.productionCompanies.add(...movie.production_companies)
-		movie.production_countries && this.productionCountries.add(...movie.production_countries)
+		// These have a main value found from the movie.
+		this.backdrops.main = movie.backdrop_path
+		this.languages.main = {iso_639_1: movie.original_language}
+		this.posters.main = movie.poster_path
+		this.releases.main = movie.release_date
 
-		// References to other fetchable resources.
-		movie.poster_path && this.posters.addMain(movie.poster_path)
-		movie.backdrop_path && this.backdrops.addMain(movie.backdrop_path)
-		// this.videos ??= new Resource(Video) // ⚠️ requires another fetch
-		// this.reviews ??= new Resource(Review) // ⚠️ requires another fetch
-		// this.releases.add(movie.release_date) // ⚠️ requires another fetch
+		// Add data from movie source.
+		this.genres.add(...movie.genres ?? [ ])
+		this.languages.add(...movie.spoken_languages ?? [ ])
+		this.productionCountries.add(...movie.production_countries ?? [ ])
+
+		// These are enhanced via a secondary request.
+		this.collections.add(...collections ?? movie.belongs_to_collection ?? [ ])
+		this.productionCompanies.add(...companies ?? movie.production_companies ?? [ ])
+
+		// These are only accessible via a secondary request.
+		this.releases.add(releases)
+		this.reviews.add(reviews)
+		this.videos.add(videos)
 
 		// Popular Opinion for ratings histogram etc.
-		movie.vote_count && movie.vote_average && this.ratings.assignFromApi(movie)
+		this.ratings.assignFromApi({movie})
 
+		// Clean up class data.
 		this.assignDefaults( )
 	}
 }

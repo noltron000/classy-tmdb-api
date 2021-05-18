@@ -1,7 +1,9 @@
 class Language {
 	constructor (data) {
 		this.assignDefaults( )
-		this.assignFromApi(data)
+		if (data) {
+			this.assignFromApi(data)
+		}
 	}
 
 	/* STEP 1: INITIALIZE CLASS STRUCTURE */
