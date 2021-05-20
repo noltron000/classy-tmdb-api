@@ -1,6 +1,5 @@
 import {convertToEasyDuration} from '../helpers/conversions.js'
 import List from './list.js'
-import Resource from './resource.js'
 import {Poster, Backdrop} from './image.js'
 import Video from './video.js'
 import Collection from './collection.js'
@@ -19,10 +18,28 @@ Types of Movie Data:
 */
 
 class Movie {
-	constructor (data, source) {
+	constructor ({
+		movie,
+		backdrops,
+		collections,
+		companies,
+		posters,
+		releases,
+		reviews,
+		videos,
+	}) {
 		this.assignDefaults( )
-		if (data && source === 'api') {
-			this.assignFromApi(data)
+		if (movie) {
+			this.assignFromApi({
+				movie,
+				backdrops,
+				collections,
+				companies,
+				posters,
+				releases,
+				reviews,
+				videos,
+			})
 		}
 	}
 
@@ -40,8 +57,6 @@ class Movie {
 
 		// Detailed movie information.
 		this.originalTitle ??= null
-		// this.originalLanguage ??= null // ⚠️ see this.languages.main
-		// this.releaseDate ??= null // ⚠️ see this.releases.main
 		this.runtime ??= null
 
 		// Categorical movie information.
@@ -56,69 +71,87 @@ class Movie {
 		this.popularity ??= null
 
 		// References to other resources.
-		this.genres ??= new List(Genre)
-		this.collections ??= new List(Collection)
+		this.backdrops ??= new List(Backdrop)
 		this.languages ??= new List(Language)
-		this.productionCompanies ??= new List(Company)
+		this.posters ??= new List(Poster)
+		this.releases ??= new List(Release)
+
+		this.genres ??= new List(Genre)
 		this.productionCountries ??= new List(Country)
 
-		// References to other fetchable resources.
-		this.posters ??= new Resource(Poster)
-		this.backdrops ??= new Resource(Backdrop)
-		this.videos ??= new Resource(Video)
-		this.reviews ??= new Resource(Review)
-		this.releases ??= new Resource(Release)
+		this.collections ??= new List(Collection)
+		this.productionCompanies ??= new List(Company)
+
+		this.reviews ??= new List(Review)
+		this.videos ??= new List(Video)
 
 		// Popular Opinion for ratings histogram etc.
 		this.ratings ??= new PopularOpinion( )
 	}
 
-	/* STEP 2: CLEAN INPUT DATA */
-	assignFromApi (data) {
+	/* STEP 2: CLEAN INPUT movie */
+	assignFromApi ({
+		movie,
+		backdrops,
+		collections,
+		companies,
+		posters,
+		releases,
+		reviews,
+		videos,
+	}) {
 		// External identification.
-		this.ids.api = data.id
-		this.ids.imdb = data.imdb_id
+		this.ids.api = movie.id
+		this.ids.imdb = movie.imdb_id
 
-		this.title = data.title
-		this.tagline = data.tagline
-		this.overview = data.overview
+		this.title = movie.title
+		this.tagline = movie.tagline
+		this.overview = movie.overview
 
 		// Detailed movie information.
-		if (data.title !== data.original_title) {
-			this.originalTitle = data.original_title
+		if (movie.title !== movie.original_title) {
+			this.originalTitle = movie.original_title
 		}
-		// this.originalLanguage // ⚠️ see this.languages.main
-		// this.releaseDate // ⚠️ see this.releases.main
-		this.runtime = convertToEasyDuration(data.runtime)
+		this.runtime = convertToEasyDuration(movie.runtime * 60)
 
 		// Categorical movie information.
-		this.isAdult = data.adult
-		this.isVideo = data.video
-		this.status = data.status
+		this.isAdult = movie.adult
+		this.isVideo = movie.video
+		this.status = movie.status
 
 		// Trivial movie information.
-		this.homepage = data.homepage
-		this.budget = data.budget
-		this.revenue = data.revenue
-		this.popularity = data.popularity
+		this.homepage = movie.homepage
+		this.budget = movie.budget
+		this.revenue = movie.revenue
+		this.popularity = movie.popularity
 
 		// References to other resources.
-		data.genres && this.genres.add(...data.genres)
-		data.belongs_to_collection && this.collections.add(data.belongs_to_collection)
-		data.spoken_languages && this.languages.add(...data.spoken_languages)
-		data.production_companies && this.productionCompanies.add(...data.production_companies)
-		data.production_countries && this.productionCountries.add(...data.production_countries)
+		// These have a main value found from the movie.
+		this.backdrops.setMain({file_path: movie.backdrop_path})
+		this.languages.setMain({iso_639_1: movie.original_language})
+		this.posters.setMain({file_path: movie.poster_path})
+		this.releases.setMain(movie.release_date)   // ⚠️ TODO: improve class
 
-		// References to other fetchable resources.
-		data.poster_path && this.posters.addMain(data.poster_path)
-		data.backdrop_path && this.backdrops.addMain(data.backdrop_path)
-		// this.videos ??= new Resource(Video) // ⚠️ requires another fetch
-		// this.reviews ??= new Resource(Review) // ⚠️ requires another fetch
-		// this.releases.add(data.release_date) // ⚠️ requires another fetch
+		// Add data from movie source.
+		this.genres.add(...movie.genres ?? [ ])
+		this.languages.add(...movie.spoken_languages ?? [ ])
+		this.productionCountries.add(...movie.production_countries ?? [ ])
+
+		// These are enhanced via a secondary request.
+		this.collections.add(...collections ?? movie.belongs_to_collection ?? [ ])      // ⚠️ TODO: improve class
+		this.productionCompanies.add(...companies ?? movie.production_companies ?? [ ])
+
+		// These are only accessible via a secondary request.
+		this.backdrops.add(...backdrops ?? [ ])
+		this.posters.add(...posters ?? [ ])
+		this.releases.add(...releases ?? [ ]) // ⚠️ TODO: improve class
+		this.reviews.add(...reviews ?? [ ])   // ⚠️ TODO: improve class
+		this.videos.add(...videos ?? [ ])     // ⚠️ TODO: improve class
 
 		// Popular Opinion for ratings histogram etc.
-		data.vote_count && data.vote_average && this.ratings.assignFromApi(data)
+		this.ratings.assignFromApi({movie})
 
+		// Clean up class data.
 		this.assignDefaults( )
 	}
 }
