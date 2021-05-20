@@ -20,15 +20,26 @@ Types of Movie Data:
 class Movie {
 	constructor ({
 		movie,
+		backdrops,
 		collections,
 		companies,
-		videos,
-		reviews,
+		posters,
 		releases,
+		reviews,
+		videos,
 	}) {
 		this.assignDefaults( )
 		if (movie) {
-			this.assignFromApi({movie})
+			this.assignFromApi({
+				movie,
+				backdrops,
+				collections,
+				companies,
+				posters,
+				releases,
+				reviews,
+				videos,
+			})
 		}
 	}
 
@@ -81,11 +92,13 @@ class Movie {
 	/* STEP 2: CLEAN INPUT movie */
 	assignFromApi ({
 		movie,
+		backdrops,
 		collections,
 		companies,
-		videos,
-		reviews,
+		posters,
 		releases,
+		reviews,
+		videos,
 	}) {
 		// External identification.
 		this.ids.api = movie.id
@@ -126,12 +139,14 @@ class Movie {
 
 		// These are enhanced via a secondary request.
 		this.collections.add(...collections ?? movie.belongs_to_collection ?? [ ])      // ⚠️ TODO: improve class
-		this.productionCompanies.add(...companies ?? movie.production_companies ?? [ ]) // ⚠️ TODO: improve class
+		this.productionCompanies.add(...companies ?? movie.production_companies ?? [ ])
 
 		// These are only accessible via a secondary request.
-		this.releases.add(releases) // ⚠️ TODO: improve class
-		this.reviews.add(reviews)   // ⚠️ TODO: improve class
-		this.videos.add(videos)     // ⚠️ TODO: improve class
+		this.backdrops.add(...backdrops ?? [ ])
+		this.posters.add(...posters ?? [ ])
+		this.releases.add(...releases ?? [ ]) // ⚠️ TODO: improve class
+		this.reviews.add(...reviews ?? [ ])   // ⚠️ TODO: improve class
+		this.videos.add(...videos ?? [ ])     // ⚠️ TODO: improve class
 
 		// Popular Opinion for ratings histogram etc.
 		this.ratings.assignFromApi({movie})
