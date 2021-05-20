@@ -1,4 +1,4 @@
-import {convertToEasyDuration} from '../helpers/conversions.js'
+import {convertToEasyDate} from '../helpers/conversions.js'
 import Movie from './movie.js'
 
 class Review {
@@ -25,20 +25,20 @@ class Review {
 	}
 
 	/* STEP 2: CLEAN INPUT DATA */
-	assignData (data) {
-		this.ids.api = data.id
+	assignData ({review}) {
+		this.ids.api = review.id
 
-		this.url = data.url
-		this.movie = new Movie({id: data.movie_id})
-		this['iso639-1'] = data.iso_639_1
+		this.url = review.url
+		this.movie = new Movie({movie: {id: review.movie_id}})
+		this['iso639-1'] = review.iso_639_1
 
 		// this.author = new Author( )
-		this.rating = data.author_details.rating
+		this.rating = review.author_details.rating
 		// this.title = ???
-		this.content = data.content
+		this.content = review.content
 
-		this.creationDate = convertToEasyDate(new Date(Date.parse(data.created_at)))
-		this.revisionDate = convertToEasyDate(new Date(Date.parse(data.updated_at)))
+		this.creationDate = convertToEasyDate(new Date(Date.parse(review.created_at)))
+		this.revisionDate = convertToEasyDate(new Date(Date.parse(review.updated_at)))
 
 		// Clean up class data.
 		this.assignDefaults( )

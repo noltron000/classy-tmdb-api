@@ -1,3 +1,7 @@
+import List from './list.js'
+import {Poster, Backdrop} from './image.js'
+import Movie from './movie.js'
+
 class Collection {
 	constructor (data) {
 		this.assignDefaults( )
@@ -48,3 +52,9 @@ class Collection {
 }
 
 export default Collection
+
+
+		// "id": 729322,
+		// "name": "Gabriel's Inferno Collection",
+		// "poster_path": "/LdSn17U6ybhtPJT3S6fTNRni5Y.jpg",
+		// "backdrop_path": "/hXF55codODfnzTZDExbUbfFmA9y.jpg"
