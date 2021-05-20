@@ -34,7 +34,7 @@ class Company {
 		this.homepage = data.homepage
 		this.headquarters = data.headquarters
 
-		data.logo_path && this.logo.assignFromApi(data.logo_path)
+		data.logo_path && this.logo.assignFromApi({file_path: data.logo_path})
 		data.origin_country && (this.originCountry.assignFromApi(data.origin_country))
 		data.parent_company && (this.parentCompany = new Company(data.parent_company))
 
