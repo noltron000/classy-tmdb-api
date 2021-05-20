@@ -82,20 +82,36 @@ class Movie {
 		reviews,
 		videos,
 	}) {
-		// Parse for special deconstructed class style for clarity.
-		backdrops = (backdrops ?? [ ]).map((backdrop) => ({backdrop}))
-		collections = (collections ?? [ ]).map((collection) => ({collection}))
-		companies = (companies ?? [ ]).map((company) => ({company}))
-		posters = (posters ?? [ ]).map((poster) => ({poster}))
-		releases = (releases ?? [ ]).map((release) => ({release}))
-		reviews = (reviews ?? [ ]).map((review) => ({review}))
-		videos = (videos ?? [ ]).map((video) => ({video}))
+		// Cleanse other resources.
+		releases && (releases = releases.results)
+		reviews && (reviews = reviews.results)
+		videos && (videos = videos.results)
 
-		const movieGenres = (movie.genres ?? [ ]).map((genre) => ({genre}))
-		const movieLanguages = (movie.languages ?? [ ]).map((language) => ({language}))
-		const movieCollections = ([...movie.belongs_to_collection ?? [ ]]).map((collection) => ({collection}))
-		const movieCountries = (movie.production_countries ?? [ ]).map((country) => ({country}))
-		const movieCompanies = (movie.production_companies ?? [ ]).map((company) => ({company}))
+		// Cleanse releases.
+		releases && (releases.results ?? [ ]).map((releaseGroup) => {
+			const iso_3166_1 = releaseGroup.iso_3166_1
+			// console.log(release)
+			return releaseGroup.release_dates.map((release) => ({
+				...release,
+				iso_3166_1,
+			}))
+		})
+
+
+		// Parse for special deconstructed class style for clarity.
+		backdrops =     (backdrops ?? [ ]).map((backdrop) => ({backdrop}))
+		collections = (collections ?? [ ]).map((collection) => ({collection}))
+		companies =     (companies ?? [ ]).map((company) => ({company}))
+		posters =         (posters ?? [ ]).map((poster) => ({poster}))
+		releases =       (releases ?? [ ]).map((release) => ({release}))
+		reviews =         (reviews ?? [ ]).map((review) => ({review}))
+		videos =           (videos ?? [ ]).map((video) => ({video}))
+
+		const movieGenres =                      (movie.genres ?? [ ] ).map((genre) => ({genre}))
+		const movieLanguages =                (movie.languages ?? [ ] ).map((language) => ({language}))
+		const movieCollections = ([movie.belongs_to_collection ?? [ ]]).map((collection) => ({collection}))
+		const movieCountries =     (movie.production_countries ?? [ ] ).map((country) => ({country}))
+		const movieCompanies =     (movie.production_companies ?? [ ] ).map((company) => ({company}))
 
 		collections.length || (collections = movieCollections)
 		companies.length || (companies = movieCompanies)
