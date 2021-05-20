@@ -146,7 +146,7 @@ class Movie {
 		this.posters.add(...posters ?? [ ])
 		this.releases.add(...releases ?? [ ])
 		this.reviews.add(...reviews ?? [ ])   // ⚠️ TODO: improve class
-		this.videos.add(...videos ?? [ ])     // ⚠️ TODO: improve class
+		this.videos.add(...videos ?? [ ])
 
 		// Popular Opinion for ratings histogram etc.
 		this.ratings.assignFromApi({movie})
