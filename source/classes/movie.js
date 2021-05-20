@@ -138,7 +138,7 @@ class Movie {
 		this.productionCountries.add(...movie.production_countries ?? [ ])
 
 		// These are enhanced via a secondary request.
-		this.collections.add(...collections ?? movie.belongs_to_collection ?? [ ])      // ⚠️ TODO: improve class
+		this.collections.add(...collections ?? movie.belongs_to_collection ?? [ ])
 		this.productionCompanies.add(...companies ?? movie.production_companies ?? [ ])
 
 		// These are only accessible via a secondary request.
