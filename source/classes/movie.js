@@ -130,7 +130,7 @@ class Movie {
 		this.backdrops.setMain({file_path: movie.backdrop_path})
 		this.languages.setMain({iso_639_1: movie.original_language})
 		this.posters.setMain({file_path: movie.poster_path})
-		this.releases.setMain(movie.release_date)   // ⚠️ TODO: improve class
+		this.releases.setMain({date: movie.release_date})
 
 		// Add data from movie source.
 		this.genres.add(...movie.genres ?? [ ])
@@ -138,15 +138,15 @@ class Movie {
 		this.productionCountries.add(...movie.production_countries ?? [ ])
 
 		// These are enhanced via a secondary request.
-		this.collections.add(...collections ?? movie.belongs_to_collection ?? [ ])      // ⚠️ TODO: improve class
+		this.collections.add(...collections ?? movie.belongs_to_collection ?? [ ])
 		this.productionCompanies.add(...companies ?? movie.production_companies ?? [ ])
 
 		// These are only accessible via a secondary request.
 		this.backdrops.add(...backdrops ?? [ ])
 		this.posters.add(...posters ?? [ ])
-		this.releases.add(...releases ?? [ ]) // ⚠️ TODO: improve class
-		this.reviews.add(...reviews ?? [ ])   // ⚠️ TODO: improve class
-		this.videos.add(...videos ?? [ ])     // ⚠️ TODO: improve class
+		this.releases.add(...releases ?? [ ])
+		this.reviews.add(...reviews ?? [ ])
+		this.videos.add(...videos ?? [ ])
 
 		// Popular Opinion for ratings histogram etc.
 		this.ratings.assignFromApi({movie})
