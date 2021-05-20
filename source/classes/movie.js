@@ -145,7 +145,7 @@ class Movie {
 		this.backdrops.add(...backdrops ?? [ ])
 		this.posters.add(...posters ?? [ ])
 		this.releases.add(...releases ?? [ ])
-		this.reviews.add(...reviews ?? [ ])   // ⚠️ TODO: improve class
+		this.reviews.add(...reviews ?? [ ])
 		this.videos.add(...videos ?? [ ])
 
 		// Popular Opinion for ratings histogram etc.
