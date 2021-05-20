@@ -2,7 +2,7 @@ class Country {
 	constructor (data) {
 		this.assignDefaults( )
 		if (data) {
-			this.assignFromApi(data)
+			this.assignData(data)
 		}
 	}
 
@@ -13,9 +13,9 @@ class Country {
 	}
 
 	/* STEP 2: CLEAN INPUT DATA */
-	assignFromApi (data) {
-		this['iso3166-1'] = data.iso_3166_1
-		this.name = data.name
+	assignData ({country}) {
+		this['iso3166-1'] = country.iso_3166_1
+		this.name = country.name
 
 		// Clean up class data.
 		this.assignDefaults( )

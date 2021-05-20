@@ -1,13 +1,13 @@
 class Account {
 	constructor (data) {
 		this.assignDefaults( )
-		this.assignFromApi(data)
+		this.assignData(data)
 	}
 	/* STEP 1: INITIALIZE CLASS STRUCTURE */
 	assignDefaults ( ) { }
 
 	/* STEP 2: CLEAN INPUT DATA */
-	assignFromApi (data) {
+	assignData ({account}) {
 		// Clean up class data.
 		this.assignDefaults( )
 	}

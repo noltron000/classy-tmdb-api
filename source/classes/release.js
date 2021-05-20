@@ -6,7 +6,7 @@ class Release {
 		date,
 	}) {
 		this.assignDefaults( )
-		this.assignFromApi({
+		this.assignData({
 			data,
 			date,
 		})
@@ -23,7 +23,7 @@ class Release {
 	}
 
 	/* STEP 2: CLEAN INPUT DATA */
-	assignFromApi ({
+	assignData ({
 		data = { },
 		date,
 	}) {

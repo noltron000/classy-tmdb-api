@@ -2,7 +2,7 @@ class Language {
 	constructor (data) {
 		this.assignDefaults( )
 		if (data) {
-			this.assignFromApi(data)
+			this.assignData(data)
 		}
 	}
 
@@ -13,9 +13,9 @@ class Language {
 	}
 
 	/* STEP 2: CLEAN INPUT DATA */
-	assignFromApi (data) {
-		this['iso639-1'] = data.iso_639_1
-		this.name = data.name
+	assignData ({language}) {
+		this['iso639-1'] = language.iso_639_1
+		this.name = language.name
 
 		// Clean up class data.
 		this.assignDefaults( )

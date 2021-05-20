@@ -1,7 +1,7 @@
 class Config {
 	constructor (data) {
 		this.assignDefaults( )
-		this.assignFromApi(data)
+		this.assignData(data)
 	}
 
 	/* STEP 1: INITIALIZE CLASS STRUCTURE */
@@ -22,9 +22,9 @@ class Config {
 	}
 
 	/* STEP 2: CLEAN INPUT DATA */
-	assignFromApi (data) {
-		this.images.baseURL.default = data.images.base_url
-		this.images.baseURL.secure = data.images.secure_base_url
+	assignData ({config}) {
+		this.images.baseURL.default = config.images.base_url
+		this.images.baseURL.secure = config.images.secure_base_url
 
 		const cleanSize = (size) => {
 			const cleaned = {
@@ -45,13 +45,13 @@ class Config {
 			return cleaned
 		}
 
-		this.images.backdropSizes = data.images.backdrop_sizes.map(size => cleanSize(size))
-		this.images.posterSizes =     data.images.poster_sizes.map(size => cleanSize(size))
-		this.images.avatarSizes =    data.images.profile_sizes.map(size => cleanSize(size))
-		this.images.logoSizes =         data.images.logo_sizes.map(size => cleanSize(size))
-		this.images.stillSizes =       data.images.still_sizes.map(size => cleanSize(size))
+		this.images.backdropSizes = config.images.backdrop_sizes.map(size => cleanSize(size))
+		this.images.posterSizes =     config.images.poster_sizes.map(size => cleanSize(size))
+		this.images.avatarSizes =    config.images.profile_sizes.map(size => cleanSize(size))
+		this.images.logoSizes =         config.images.logo_sizes.map(size => cleanSize(size))
+		this.images.stillSizes =       config.images.still_sizes.map(size => cleanSize(size))
 
-		data.changeKeys && (this.changeKeys = data.changeKeys)
+		config.changeKeys && (this.changeKeys = config.changeKeys)
 
 		// Clean up class data.
 		this.assignDefaults( )
@@ -235,5 +235,5 @@ const data = {
 	]
 }
 
-const configuration = new Config(data)
+const configuration = new Config({config: data})
 export default configuration

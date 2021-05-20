@@ -6,7 +6,7 @@ class Company {
 	constructor (data) {
 		this.assignDefaults( )
 		if (data) {
-			this.assignFromApi(data)
+			this.assignData(data)
 		}
 	}
 
@@ -20,23 +20,23 @@ class Company {
 		this.homepage ??= null
 		this.headquarters ??= null
 
-		this.logo ??= new Logo( )
-		this.originCountry ??= new Country( )
+		this.logo ??= null
+		this.originCountry ??= null
 		this.parentCompany ??= null
 	}
 
 	/* STEP 2: CLEAN INPUT DATA */
-	assignFromApi (data) {
-		this.ids.api = data.id
+	assignData ({company}) {
+		this.ids.api = company.id
 
-		this.name = data.name
-		this.description = data.description
-		this.homepage = data.homepage
-		this.headquarters = data.headquarters
+		this.name = company.name
+		this.description = company.description
+		this.homepage = company.homepage
+		this.headquarters = company.headquarters
 
-		data.logo_path && this.logo.assignFromApi({file_path: data.logo_path})
-		data.origin_country && (this.originCountry.assignFromApi(data.origin_country))
-		data.parent_company && (this.parentCompany = new Company(data.parent_company))
+		company.logo_path && (this.logo = new Logo({logo: {file_path: company.logo_path}}))
+		company.origin_country && (this.originCountry = new Country({country: {'iso3166-1': company.origin_country}}))
+		company.parent_company && (this.parentCompany = new Company({company: {name: company.parent_company}})) // ⚠️ VERIFY
 
 		// Clean up class data.
 		this.assignDefaults( )

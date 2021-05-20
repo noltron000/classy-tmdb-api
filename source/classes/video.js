@@ -1,7 +1,7 @@
 class Video {
 	constructor (data) {
 		this.assignDefaults( )
-		this.assignFromApi(data)
+		this.assignData(data)
 	}
 	/* STEP 1: INITIALIZE CLASS STRUCTURE */
 	assignDefaults ( ) {
@@ -18,7 +18,7 @@ class Video {
 	}
 
 	/* STEP 2: CLEAN INPUT DATA */
-	assignFromApi (data) {
+	assignData (data) {
 		this.ids.api ??= data.id
 		this['iso639-1'] ??= data['iso639-1']
 		this['iso3166-1'] ??= data['iso3166-1']

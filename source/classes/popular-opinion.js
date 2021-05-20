@@ -1,8 +1,11 @@
 import {convertToStarGrade, convertToVulgarFraction} from '../helpers/conversions.js'
 
 class PopularOpinion {
-	constructor ( ) {
+	constructor (data) {
 		this.assignDefaults( )
+		if (data) {
+			this.assignData(data)
+		}
 	}
 
 	/* STEP 1: INITIALIZE CLASS STRUCTURE */
@@ -20,7 +23,7 @@ class PopularOpinion {
 	}
 
 	/* STEP 2: CLEAN INPUT DATA */
-	assignFromApi (data) {
+	assignData ({data}) {
 		if (data.vote_count && data.vote_average) {
 			const dataCount = data.vote_count
 			const dataAverage = convertToStarGrade(data.vote_average)

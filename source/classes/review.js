@@ -4,7 +4,7 @@ import Movie from './movie.js'
 class Review {
 	constructor (data) {
 		this.assignDefaults( )
-		this.assignFromApi(data)
+		this.assignData(data)
 	}
 	/* STEP 1: INITIALIZE CLASS STRUCTURE */
 	assignDefaults ( ) {
@@ -25,7 +25,7 @@ class Review {
 	}
 
 	/* STEP 2: CLEAN INPUT DATA */
-	assignFromApi (data) {
+	assignData (data) {
 		this.ids.api = data.id
 
 		this.url = data.url

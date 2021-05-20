@@ -6,7 +6,7 @@ class Image {
 		this.type = type
 		this.assignDefaults( )
 		if (data) {
-			this.assignFromApi(data)
+			this.assignData(data)
 		}
 	}
 
@@ -22,13 +22,13 @@ class Image {
 	}
 
 	/* STEP 2: CLEAN INPUT DATA */
-	assignFromApi (data) {
-		this.basePath = data.file_path
-		this['iso639-1'] = data.iso_639_1
-		this.originalWidth = data.width
-		this.originalHeight = data.height
+	assignData ({image}) {
+		this.basePath = image.file_path
+		this['iso639-1'] = image.iso_639_1
+		this.originalWidth = image.width
+		this.originalHeight = image.height
 
-		this.ratings.assignFromApi(data)
+		this.ratings.assignData({data: image})
 
 		const regex = /^\/https?:\/\//
 		if (regex.test(this.basePath)) {
@@ -74,32 +74,32 @@ class Image {
 }
 
 class Backdrop extends Image {
-	constructor (data) {
-		super('backdrop', data)
+	constructor ({backdrop}) {
+		super('backdrop', {image: backdrop})
 	}
 }
 
 class Poster extends Image {
-	constructor (data) {
-		super('poster', data)
+	constructor ({poster}) {
+		super('poster', {image: poster})
 	}
 }
 
 class Avatar extends Image {
-	constructor (data) {
-		super('avatar', data)
+	constructor ({avatar}) {
+		super('avatar', {image: avatar})
 	}
 }
 
 class Logo extends Image {
-	constructor (data) {
-		super('logo', data)
+	constructor ({logo}) {
+		super('logo', {image: logo})
 	}
 }
 
 class Still extends Image {
-	constructor (data) {
-		super('still', data)
+	constructor ({still}) {
+		super('still', {image: still})
 	}
 }
 

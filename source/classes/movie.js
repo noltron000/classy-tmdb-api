@@ -18,28 +18,10 @@ Types of Movie Data:
 */
 
 class Movie {
-	constructor ({
-		movie,
-		backdrops,
-		collections,
-		companies,
-		posters,
-		releases,
-		reviews,
-		videos,
-	}) {
+	constructor (data) {
 		this.assignDefaults( )
-		if (movie) {
-			this.assignFromApi({
-				movie,
-				backdrops,
-				collections,
-				companies,
-				posters,
-				releases,
-				reviews,
-				videos,
-			})
+		if (data) {
+			this.assignData(data)
 		}
 	}
 
@@ -90,7 +72,7 @@ class Movie {
 	}
 
 	/* STEP 2: CLEAN INPUT movie */
-	assignFromApi ({
+	assignData ({
 		movie,
 		backdrops,
 		collections,
@@ -100,6 +82,24 @@ class Movie {
 		reviews,
 		videos,
 	}) {
+		// Parse for special deconstructed class style for clarity.
+		backdrops = (backdrops ?? [ ]).map((backdrop) => ({backdrop}))
+		collections = (collections ?? [ ]).map((collection) => ({collection}))
+		companies = (companies ?? [ ]).map((company) => ({company}))
+		posters = (posters ?? [ ]).map((poster) => ({poster}))
+		releases = (releases ?? [ ]).map((release) => ({release}))
+		reviews = (reviews ?? [ ]).map((review) => ({review}))
+		videos = (videos ?? [ ]).map((video) => ({video}))
+
+		const movieGenres = (movie.genres ?? [ ]).map((genre) => ({genre}))
+		const movieLanguages = (movie.languages ?? [ ]).map((language) => ({language}))
+		const movieCollections = ([...movie.belongs_to_collection ?? [ ]]).map((collection) => ({collection}))
+		const movieCountries = (movie.production_countries ?? [ ]).map((country) => ({country}))
+		const movieCompanies = (movie.production_companies ?? [ ]).map((company) => ({company}))
+
+		collections.length || (collections = movieCollections)
+		companies.length || (companies = movieCompanies)
+
 		// External identification.
 		this.ids.api = movie.id
 		this.ids.imdb = movie.imdb_id
@@ -127,29 +127,29 @@ class Movie {
 
 		// References to other resources.
 		// These have a main value found from the movie.
-		this.backdrops.setMain({file_path: movie.backdrop_path})
-		this.languages.setMain({iso_639_1: movie.original_language})
-		this.posters.setMain({file_path: movie.poster_path})
+		this.backdrops.setMain({backdrop: {file_path: movie.backdrop_path}})
+		this.languages.setMain({language: {iso_639_1: movie.original_language}})
+		this.posters.setMain({poster: {file_path: movie.poster_path}})
 		this.releases.setMain({date: movie.release_date})
 
 		// Add data from movie source.
-		this.genres.add(...movie.genres ?? [ ])
-		this.languages.add(...movie.spoken_languages ?? [ ])
-		this.productionCountries.add(...movie.production_countries ?? [ ])
+		this.genres.add(...movieGenres)
+		this.languages.add(...movieLanguages)
+		this.productionCountries.add(...movieCountries)
 
 		// These are enhanced via a secondary request.
-		this.collections.add(...collections ?? movie.belongs_to_collection ?? [ ])
-		this.productionCompanies.add(...companies ?? movie.production_companies ?? [ ])
+		this.collections.add(...collections)
+		this.productionCompanies.add(...companies)
 
 		// These are only accessible via a secondary request.
-		this.backdrops.add(...backdrops ?? [ ])
-		this.posters.add(...posters ?? [ ])
-		this.releases.add(...releases ?? [ ])
-		this.reviews.add(...reviews ?? [ ])
-		this.videos.add(...videos ?? [ ])
+		this.backdrops.add(...backdrops)
+		this.posters.add(...posters)
+		this.releases.add(...releases)
+		this.reviews.add(...reviews)
+		this.videos.add(...videos)
 
 		// Popular Opinion for ratings histogram etc.
-		this.ratings.assignFromApi({movie})
+		this.ratings.assignData({data: movie})
 
 		// Clean up class data.
 		this.assignDefaults( )
