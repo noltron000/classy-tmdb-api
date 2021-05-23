@@ -1,8 +1,10 @@
 import {
 	convertToEasyDate,
+	convertToStarGrade,
 	cleanseIso6391,
 } from '../helpers/conversions.js'
 
+import User from './user.js'
 import Movie from './movie.js'
 
 class Review {
@@ -10,39 +12,84 @@ class Review {
 		this.assignDefaults( )
 		this.assignData(data)
 	}
+
 	/* STEP 1: INITIALIZE CLASS STRUCTURE */
 	assignDefaults ( ) {
 		this.ids ??= { }
-		this.ids.api ??= null
+		// this.ids.api ??= null
+		// this['iso639-1'] ??= null
 
-		this.url ??= null
-		this.movie ??= null
-		this['iso639-1'] ??= null
+		// this.rating ??= null
+		// this.title ??= null
+		// this.content ??= null
 
-		this.author ??= null
-		this.rating ??= null
-		this.title ??= null
-		this.content ??= null
+		this.creationDate ??= { }
+		this.revisionDate ??= { }
 
-		this.creationDate ??= null
-		this.revisionDate ??= null
+		this.author ??= new User( )
+		this.movie ??= new Movie( )
 	}
 
 	/* STEP 2: CLEAN INPUT DATA */
-	assignData ({review}) {
-		this.ids.api = review.id
+	assignData ({
+		review,
+		movie,
+	}) {
 
-		this.url = review.url
-		this.movie = new Movie({movie: {id: review.movie_id}})
-		this['iso639-1'] = cleanseIso6391(review.iso_639_1)
+		//+ ASSIGN REVIEW DATA +//
+		if (review != undefined) {
 
-		// this.author = new Author( )
-		this.rating = review.author_details.rating
-		// this.title = ???
-		this.content = review.content
+			// External identification.
+			if (review.source === 'api' || review.source === undefined) {
+				this.source = 'api'
+				if (review.id !== undefined) {
+					this.ids.api = review.id
+				}
 
-		this.creationDate = convertToEasyDate(new Date(Date.parse(review.created_at)))
-		this.revisionDate = convertToEasyDate(new Date(Date.parse(review.updated_at)))
+				// Review information.
+				if (review.author_details?.rating !== undefined) {
+					this.rating = convertToStarGrade(review.author_details.rating)
+				}
+
+				if (review.content !== undefined) {
+					this.content = review.content
+				}
+
+				// Metadata.
+				if (review.created_at !== undefined) {
+					this.creationDate = convertToEasyDate(new Date(Date.parse(review.created_at)))
+				}
+
+				if (review.updated_at !== undefined) {
+					this.revisionDate = convertToEasyDate(new Date(Date.parse(review.updated_at)))
+				}
+
+				if (review.iso_639_1 !== undefined) {
+					this['iso639-1'] = cleanseIso6391(review.iso_639_1)
+				}
+
+				// Author Data.
+				if (review.author_details !== undefined) {
+					this.author.assignData({user: review.author_details})
+				}
+			}
+
+			else if (review.source === 'db') {
+				// ⚠️ COMPLETE THIS SECTION
+				this.source = 'db'
+			}
+		}
+
+		//+ ASSIGN MOVIE DATA +//
+		if (movie != undefined) {
+			this.movie = new Movie({movie})
+		}
+		else if (this.source === 'api' && review?.movie_id != undefined) {
+			this.movie = new Movie({movie: {id: review.movie_id}})
+		}
+		else if (this.source === 'db' && review?.movieId != undefined) {
+			this.movie = new Movie({movie: {id: review.movieId}})
+		}
 
 		// Clean up class data.
 		this.assignDefaults( )

@@ -202,7 +202,7 @@ class Movie {
 
 			// Add opinions from the movie data.
 			this.ratings.assignData({
-				data: {vote_count: movie.vote_count, vote_average: movie.vote_average},
+				polling: {vote_count: movie.vote_count, vote_average: movie.vote_average},
 			})
 		}
 

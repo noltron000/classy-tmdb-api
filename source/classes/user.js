@@ -1,5 +1,5 @@
-class Account {
-	constructor (data) {
+class User {
+	constructor (data = { }) {
 		this.assignDefaults( )
 		this.assignData(data)
 	}
@@ -7,10 +7,10 @@ class Account {
 	assignDefaults ( ) { }
 
 	/* STEP 2: CLEAN INPUT DATA */
-	assignData ({account}) {
+	assignData ({user}) {
 		// Clean up class data.
 		this.assignDefaults( )
 	}
 }
 
-export default Account
+export default User

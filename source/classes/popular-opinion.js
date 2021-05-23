@@ -31,11 +31,11 @@ class PopularOpinion {
 		if (polling != undefined) {
 			// Check vote counts and average. Extract the total and count.
 			if (polling.vote_count !== undefined && polling.vote_average !== undefined) {
-				const dataCount = data.vote_count
-				const dataAverage = convertToStarGrade(data.vote_average)
-				const dataTotal = dataAverage * dataCount
-				this.total += dataTotal
-				this.count += dataCount
+				const voteCount = polling.vote_count
+				const voteAverage = convertToStarGrade(polling.vote_average)
+				const voteTotal = voteAverage * voteCount
+				this.total += voteTotal
+				this.count += voteCount
 			}
 		}
 
@@ -46,7 +46,7 @@ class PopularOpinion {
 			reviews.forEach((review) => {
 				if (review.source === 'api') {
 					if (review.rating != undefined) {
-						this.histogram[review.rating] += 1
+						this.histogram[Math.round(review.rating)] += 1
 					}
 				}
 				else if (review.source === 'db') {
@@ -80,11 +80,16 @@ class PopularOpinion {
 		return Object.values(this.histogram).reduce((a, b) => (a + b), 0)
 	}
 
+	get histogramMost ( ) {
+		return Math.max(...Object.values(this.histogram))
+	}
+
 	toJSON ( ) {
 		const json = Object.assign({ }, this)
 		json.average = this.average
 		json.vulgarAverage = this.vulgarAverage
 		json.histogramCount = this.histogramCount
+		json.histogramMost = this.histogramMost
 		return json
 	}
 }
