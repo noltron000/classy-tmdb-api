@@ -8,28 +8,63 @@ class Video {
 	/* STEP 1: INITIALIZE CLASS STRUCTURE */
 	assignDefaults ( ) {
 		this.ids ??= { }
-		this.ids.api ??= null
-		this['iso639-1'] ??= null
-		this['iso3166-1'] ??= null
-		this.key ??= null
-		this.name ??= null
-		this.site ??= null
-		this.size ??= null
-		this.type ??= null
-		this.url ??= null
+		// this.ids.api ??= null
+		// this['iso639-1'] ??= null
+		// this['iso3166-1'] ??= null
+		// this.key ??= null
+		// this.name ??= null
+		// this.site ??= null
+		// this.size ??= null
+		// this.type ??= null
+		// this.url ??= null
 	}
 
 	/* STEP 2: CLEAN INPUT DATA */
-	assignData (data) {
-		this.ids.api ??= data.id
-		this['iso639-1'] ??= cleanseIsoCode(data.iso_639_1)
-		this['iso3166-1'] ??= cleanseIsoCode(data.iso_3166_1)
-		this.key ??= data.key
-		this.name ??= data.name
-		this.site ??= data.site
-		this.size ??= data.size
-		this.type ??= data.type
-		this.url ??= data.url
+	assignData ({video}) {
+		//+ ASSIGN VIDEO DATA +//
+		if (video != undefined) {
+			if (video.id !== undefined) {
+				this.ids.api = video.id
+			}
+
+			if (video.key !== undefined) {
+				this.key = video.key
+			}
+
+			if (video.iso_639_1 !== undefined) {
+				this['iso639-1'] = cleanseIsoCode(video.iso_639_1)
+			}
+
+			if (video.iso_3166_1 !== undefined) {
+				this['iso3166-1'] = cleanseIsoCode(video.iso_3166_1)
+			}
+
+			if (video.name !== undefined) {
+				this.name = video.name
+			}
+
+			if (video.site !== undefined) {
+				this.site = video.site
+			}
+
+			if (video.size !== undefined) {
+				this.size = video.size
+			}
+
+			if (video.type !== undefined) {
+				this.type = video.type
+			}
+
+			if (this.site !== undefined && this.key !== undefined) {
+				if (this.site === 'YouTube') {
+					this.url = `https://www.youtube.com/watch?v=${this.key}`
+				}
+
+				else if (this.site === 'Vimeo') {
+					this.url = `https://vimeo.com/${this.key}`
+				}
+			}
+		}
 
 		// Clean up class data.
 		this.assignDefaults( )
