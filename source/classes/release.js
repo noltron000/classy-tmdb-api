@@ -1,4 +1,7 @@
-import {convertToEasyDate} from '../helpers/conversions.js'
+import {
+	convertToEasyDate,
+	cleanseIso6391,
+} from '../helpers/conversions.js'
 
 class Release {
 	constructor ({
@@ -29,7 +32,7 @@ class Release {
 	}) {
 		this.certification = data.certification
 		this['iso3166-1'] = data['iso3166-1']
-		this['iso639-1']  = data['iso639-1']
+		this['iso639-1']  = cleanseIso6391(data['iso639-1'])
 		this.releaseDate = convertToEasyDate(new Date(Date.parse(date ?? data.release_date)))
 		this.type = data.type
 		this.note = data.note

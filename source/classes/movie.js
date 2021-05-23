@@ -40,7 +40,7 @@ class Movie {
 
 		// // Detailed movie information.
 		// this.originalTitle ??= undefined
-		// this.runtime ??= undefined
+		this.runtime ??= { }
 
 		// // Categorical movie information.
 		// this.isAdult ??= undefined
@@ -120,7 +120,6 @@ class Movie {
 				}
 			}
 
-			// ⚠️ Double-check object initialization in cleanup.
 			if (movie.runtime !== undefined) {
 				this.runtime = convertToEasyDuration(movie.runtime * 60)
 			}
@@ -176,7 +175,6 @@ class Movie {
 			if (movie.backdrop_path !== undefined) {
 				this.releases.setMain({release: {date: movie.release_date}})
 			}
-
 
 			// Add data from movie source.
 			if (movie.genres != undefined) {
@@ -256,8 +254,11 @@ class Movie {
 			this.videos.add(...videos)
 		}
 
-		// Popular Opinion for ratings histogram etc.
-		this.ratings.assignData({data: movie})
+		//+ ASSIGN OPINION DATA +//
+		this.ratings.assignData({
+			data: movie,
+			reviews,
+		})
 
 		// Clean up class data.
 		this.assignDefaults( )

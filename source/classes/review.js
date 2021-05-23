@@ -1,4 +1,8 @@
-import {convertToEasyDate} from '../helpers/conversions.js'
+import {
+	convertToEasyDate,
+	cleanseIso6391,
+} from '../helpers/conversions.js'
+
 import Movie from './movie.js'
 
 class Review {
@@ -30,7 +34,7 @@ class Review {
 
 		this.url = review.url
 		this.movie = new Movie({movie: {id: review.movie_id}})
-		this['iso639-1'] = review.iso_639_1
+		this['iso639-1'] = cleanseIso6391(review.iso_639_1)
 
 		// this.author = new Author( )
 		this.rating = review.author_details.rating

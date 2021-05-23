@@ -3,7 +3,6 @@ const convertToStarGrade = (grade = null) => {
 		return null
 	}
 
-
 	// When first ran the grade has a scale of 1 - 10.
 	grade -= 1     // the grade has a scale of 0 - 9.
 	grade *= 10/9  // the grade has a scale of 0 - 10.
@@ -14,11 +13,11 @@ const convertToStarGrade = (grade = null) => {
 
 
 const convertToVulgarFraction = (decimal = null) => {
-	if (decimal === null || Number.isNaN(decimal)) {
+	if (typeof decimal !== 'number' || Number.isNaN(decimal)) {
 		return null
 	}
 
-	decimal = Math.ceil(decimal * 100) / 100
+	decimal = Math.ceil(decimal * 1000) / 1000
 	let integer = Math.floor(decimal)
 	let fraction = decimal % 1
 	let vulgarNumber = ''
@@ -110,9 +109,21 @@ const convertToEasyDuration = (totalSeconds) => {
 
 
 
+const cleanseIso6391 = (code) => {
+	if (typeof code !== 'string' || code === 'xx' || code === '') {
+		return null
+	}
+	else {
+		return code
+	}
+}
+
+
+
 export {
 	convertToEasyDate,
 	convertToEasyDuration,
 	convertToStarGrade,
 	convertToVulgarFraction,
+	cleanseIso6391,
 }

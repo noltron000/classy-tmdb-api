@@ -1,3 +1,5 @@
+import {cleanseIso6391} from '../helpers/conversions.js'
+
 class Video {
 	constructor (data) {
 		this.assignDefaults( )
@@ -20,7 +22,7 @@ class Video {
 	/* STEP 2: CLEAN INPUT DATA */
 	assignData (data) {
 		this.ids.api ??= data.id
-		this['iso639-1'] ??= data['iso639-1']
+		this['iso639-1'] ??= cleanseIso6391(data['iso639-1'])
 		this['iso3166-1'] ??= data['iso3166-1']
 		this.key ??= data.key
 		this.name ??= data.name

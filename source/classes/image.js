@@ -1,3 +1,5 @@
+import {cleanseIso6391} from '../helpers/conversions.js'
+
 import config from '../config.js'
 import PopularOpinion from './popular-opinion.js'
 
@@ -24,7 +26,7 @@ class Image {
 	/* STEP 2: CLEAN INPUT DATA */
 	assignData ({image}) {
 		this.basePath = image.file_path
-		this['iso639-1'] = image.iso_639_1
+		this['iso639-1'] = cleanseIso6391(image.iso_639_1)
 		this.originalWidth = image.width
 		this.originalHeight = image.height
 
