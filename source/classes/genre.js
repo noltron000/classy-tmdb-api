@@ -1,28 +1,34 @@
 class Genre {
-	constructor (data) {
+	constructor (data = { }) {
 		this.assignDefaults( )
-		if (data) {
-			this.assignData(data)
-		}
+		this.assignData(data)
 	}
 
 	/* STEP 1: INITIALIZE CLASS STRUCTURE */
 	assignDefaults ( ) {
 		// External identification.
 		this.ids ??= { }
-		this.ids.api ??= null
+		// this.ids.api ??= null
 
-		// Genre name.
-		this.name ??= null
+		// // Genre name.
+		// this.name ??= null
 	}
 
 	/* STEP 2: CLEAN INPUT DATA */
 	assignData ({genre}) {
-		// External identification.
-		this.ids.api = genre.id
+		//+ ASSIGN GENRE DATA +//
+		if (genre != undefined) {
 
-		// Genre name.
-		this.name = genre.name
+			// There is only a name and api-id.
+			if (genre.id !== undefined) {
+				this.ids.api = genre.id
+			}
+
+			// Genre name.
+			if (genre.name !== undefined) {
+				this.name = genre.name
+			}
+		}
 
 		// Clean up class data.
 		this.assignDefaults( )
