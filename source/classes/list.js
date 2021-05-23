@@ -1,5 +1,4 @@
 class List extends Array {
-	#search
 	constructor (ItemType, ...values) {
 		super( )
 		this.ItemType = ItemType

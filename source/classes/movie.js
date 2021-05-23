@@ -19,11 +19,9 @@ Types of Movie Data:
 */
 
 class Movie {
-	constructor (data) {
+	constructor (data = { }) {
 		this.assignDefaults( )
-		if (data) {
-			this.assignData(data)
-		}
+		this.assignData(data)
 	}
 
 	/* STEP 1: INITIALIZE CLASS STRUCTURE */
@@ -86,6 +84,7 @@ class Movie {
 		reviews,
 		videos,
 	}) {
+
 		//+ ASSIGN MOVIE DATA +//
 		if (movie != undefined) {
 
@@ -200,6 +199,11 @@ class Movie {
 				movieCountries = movieCountries.map((country) => ({country, movie: this}))
 				this.productionCountries.add(...movieCountries)
 			}
+
+			// Add opinions from the movie data.
+			this.ratings.assignData({
+				data: {vote_count: movie.vote_count, vote_average: movie.vote_average},
+			})
 		}
 
 		//+ ASSIGN BACKDROPS ARRAY +//
@@ -245,6 +249,9 @@ class Movie {
 			// Prepare items to be used in the class constructor.
 			reviews = reviews.results.map((review) => ({review, movie: this}))
 			this.reviews.add(...reviews)
+
+			// Add opinions from the review data.
+			this.ratings.assignData({reviews})
 		}
 
 		//+ ASSIGN VIDEOS ARRAY +//
@@ -253,12 +260,6 @@ class Movie {
 			videos = videos.results.map((video) => ({video, movie: this}))
 			this.videos.add(...videos)
 		}
-
-		//+ ASSIGN OPINION DATA +//
-		this.ratings.assignData({
-			data: movie,
-			reviews,
-		})
 
 		// Clean up class data.
 		this.assignDefaults( )

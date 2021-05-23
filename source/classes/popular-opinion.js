@@ -1,18 +1,18 @@
 import {convertToStarGrade, convertToVulgarFraction} from '../helpers/conversions.js'
+import List from './list.js'
+import Review from './review.js'
 
 class PopularOpinion {
-	constructor (data) {
+	constructor (data = { }) {
 		this.assignDefaults( )
-		if (data) {
-			this.assignData(data)
-		}
+		this.assignData(data)
 	}
 
 	/* STEP 1: INITIALIZE CLASS STRUCTURE */
 	assignDefaults ( ) {
+		// Zero out counts and totals.
 		this.count ??= 0
 		this.total ??= 0
-
 		this.histogram ??= { }
 		this.histogram['0'] ??= 0
 		this.histogram['1'] ??= 0
@@ -23,14 +23,40 @@ class PopularOpinion {
 	}
 
 	/* STEP 2: CLEAN INPUT DATA */
-	assignData ({data}) {
-		if (data.vote_count && data.vote_average) {
-			const dataCount = data.vote_count
-			const dataAverage = convertToStarGrade(data.vote_average)
-			const dataTotal = dataAverage * dataCount
+	assignData ({
+		polling,
+		reviews,
+	}) {
+		//+ ASSIGN POLLING DATA +//
+		if (polling != undefined) {
+			// Check vote counts and average. Extract the total and count.
+			if (polling.vote_count !== undefined && polling.vote_average !== undefined) {
+				const dataCount = data.vote_count
+				const dataAverage = convertToStarGrade(data.vote_average)
+				const dataTotal = dataAverage * dataCount
+				this.total += dataTotal
+				this.count += dataCount
+			}
+		}
 
-			this.total += dataTotal
-			this.count += dataCount
+		//+ ASSIGN REVIEWS ARRAY +//
+		if (reviews != undefined) {
+			// Use reviews for histogram information.
+			reviews = new List(Review, ...reviews)
+			reviews.forEach((review) => {
+				if (review.source === 'api') {
+					if (review.rating != undefined) {
+						this.histogram[review.rating] += 1
+					}
+				}
+				else if (review.source === 'db') {
+					if (review.rating != undefined) {
+						this.count += 1
+						this.total += review.rating
+						this.histogram[review.rating] += 1
+					}
+				}
+			})
 		}
 
 		// Clean up class data.
