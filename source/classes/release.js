@@ -37,6 +37,19 @@ class Release {
 		// Clean up class data.
 		this.assignDefaults( )
 	}
+
+	static matches (item01, item02) {
+		if (!(item01 instanceof Release && item02 instanceof Release)) {
+			throw new Error('Using Release.matches( ) with an invalid object')
+		}
+
+		return item01.releaseDate?.stamp === item02.releaseDate?.stamp
+	}
+
+	static combine (item01, item02) {
+		// ⚠️ complete this function
+		return item01
+	}
 }
 
 export default Release

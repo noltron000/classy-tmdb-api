@@ -86,11 +86,6 @@ class Movie {
 		reviews,
 		videos,
 	}) {
-
-
-
-
-
 		//+ ASSIGN MOVIE DATA +//
 		if (movie != undefined) {
 
@@ -266,6 +261,19 @@ class Movie {
 
 		// Clean up class data.
 		this.assignDefaults( )
+	}
+
+	static matches (item01, item02) {
+		if (!(item01 instanceof Movie && item02 instanceof Movie)) {
+			throw new Error('Using Movie.matches( ) with an invalid object')
+		}
+
+		return item01.ids.api === item02.ids.api
+	}
+
+	static combine (item01, item02) {
+		// ⚠️ complete this function
+		return item01
 	}
 }
 

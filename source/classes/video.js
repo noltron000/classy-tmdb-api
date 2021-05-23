@@ -32,6 +32,19 @@ class Video {
 		// Clean up class data.
 		this.assignDefaults( )
 	}
+
+	static matches (item01, item02) {
+		if (!(item01 instanceof Video && item02 instanceof Video)) {
+			throw new Error('Using Video.matches( ) with an invalid object')
+		}
+
+		return item01.ids.api === item02.ids.api
+	}
+
+	static combine (item01, item02) {
+		// ⚠️ complete this function
+		return item01
+	}
 }
 
 export default Video

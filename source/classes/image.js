@@ -62,14 +62,27 @@ class Image {
 		this.assignDefaults( )
 	}
 
-	get aspectRatio ( ) {
-		return this.originalWidth / this.originalHeight
-	}
-
 	toJSON ( ) {
 		const json = Object.assign({ }, this)
 		json.aspectRatio = this.aspectRatio
 		return json
+	}
+
+	get aspectRatio ( ) {
+		return this.originalWidth / this.originalHeight
+	}
+
+	static matches (item01, item02) {
+		if (!(item01 instanceof Image && item02 instanceof Image)) {
+			throw new Error('Using Image.matches( ) with an invalid object')
+		}
+
+		return item01.basePath === item02.basePath
+	}
+
+	static combine (item01, item02) {
+		// ⚠️ complete this function
+		return item01
 	}
 }
 
