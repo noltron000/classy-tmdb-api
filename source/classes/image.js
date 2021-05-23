@@ -4,60 +4,82 @@ import config from '../config.js'
 import PopularOpinion from './popular-opinion.js'
 
 class Image {
-	constructor (type, data) {
+	constructor (type, data = { }) {
 		this.type = type
 		this.assignDefaults( )
-		if (data) {
-			this.assignData(data)
-		}
+		this.assignData(data)
 	}
 
 	/* STEP 1: INITIALIZE CLASS STRUCTURE */
 	assignDefaults ( ) {
-		this.basePath ??= null
-		this['iso639-1'] ??= null
-		this.originalWidth ??= null
-		this.originalHeight ??= null
+		// // Image Properties
+		// this.basePath ??= null
+		// this['iso639-1'] ??= null
+		// this.originalWidth ??= null
+		// this.originalHeight ??= null
 
 		this.ratings ??= new PopularOpinion( )
 		this.sizes ??= [ ]
 	}
 
 	/* STEP 2: CLEAN INPUT DATA */
-	assignData ({image}) {
-		this.basePath = image.file_path
-		this['iso639-1'] = cleanseIso6391(image.iso_639_1)
-		this.originalWidth = image.width
-		this.originalHeight = image.height
+	assignData ({
+		image,
+		movie,
+	}) {
 
-		this.ratings.assignData({data: image})
+		//+ ASSIGN IMAGE DATA +//
+		if (image != undefined) {
 
-		const regex = /^\/https?:\/\//
-		if (regex.test(this.basePath)) {
-			this.sizes.push({
-				facet: 'external',
-				size: null,
-				url: this.basePath.slice(1),
+			// Image properties.
+			if (image.height != undefined) {
+				this.originalHeight = image.height
+			}
+
+			if (image.width != undefined) {
+				this.originalWidth = image.width
+			}
+
+			if (image.iso_639_1 != undefined) {
+				this['iso639-1'] = cleanseIso6391(image.iso_639_1)
+			}
+
+			// URL construction and image identification.
+			if (image.file_path != undefined) {
+				this.basePath = image.file_path
+
+				const regex = /^\/https?:\/\//
+				if (regex.test(this.basePath)) {
+					this.sizes.push({
+						facet: 'external',
+						size: null,
+						url: this.basePath.slice(1),
+					})
+				}
+				else {
+					this.sizes.push(
+						...config
+						.images[`${this.type}Sizes`]
+						.map((imageSize) => {
+							let url = config.images.baseURL.secure ?? config.images.baseURL.default
+							if (imageSize.facet === 'original') {
+								url += imageSize.facet
+							}
+							else {
+								url += imageSize.facet.slice(0, 1)
+								url += imageSize.size
+							}
+							url += this.basePath
+							return {...imageSize, url}
+						})
+					)
+				}
+			}
+
+			// Add opinions from the image data.
+			this.ratings.assignData({
+				data: {vote_count: image.vote_count, vote_average: image.vote_average},
 			})
-		}
-		else {
-			this.sizes.push(
-				...config
-				.images[`${this.type}Sizes`]
-				.map((imageSize) => {
-
-					let url = config.images.baseURL.secure ?? config.images.baseURL.default
-					if (imageSize.facet === 'original') {
-						url += imageSize.facet
-					}
-					else {
-						url += imageSize.facet.slice(0, 1)
-						url += imageSize.size
-					}
-					url += this.basePath
-					return {...imageSize, url}
-				})
-			)
 		}
 
 		// Clean up class data.
