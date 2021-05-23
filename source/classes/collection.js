@@ -3,20 +3,18 @@ import {Poster, Backdrop} from './image.js'
 import Movie from './movie.js'
 
 class Collection {
-	constructor (data) {
+	constructor (data = { }) {
 		this.assignDefaults( )
-		if (data) {
-			this.assignData(data)
-		}
+		this.assignData(data)
 	}
 
 	/* STEP 1: INITIALIZE CLASS STRUCTURE */
 	assignDefaults ( ) {
 		this.ids ??= { }
-		this.ids.api ??= null
+		// this.ids.api ??= null
 
-		this.name ??= null
-		this.overview ??= null
+		// this.name ??= null
+		// this.overview ??= null
 
 		this.posters ??= new List(Poster)
 		this.backdrops ??= new List(Backdrop)
@@ -30,24 +28,68 @@ class Collection {
 		backdrops,
 		posters,
 	}) {
-		backdrops = (backdrops ?? [ ]).map((backdrop) => ({backdrop}))
-		posters = (posters ?? [ ]).map((poster) => ({poster}))
-		const collectionParts = (collection.parts ?? [ ]).map((movie) => ({movie}))
+		//+ ADD COLLECTION DATA +//
+		if (collection != undefined) {
 
-		this.ids.api = collection.id
+			// Set external references.
+			if (collection.id !== undefined) {
+				this.ids.api = collection.id
+			}
 
-		this.name = collection.name
-		this.overview = collection.overview
+			// Add basic information.
+			if (collection.name !== undefined) {
+				this.name = collection.name
+			}
 
-		this.posters.setMain({poster: {file_path: collection.poster_path}})
-		this.backdrops.setMain({backdrop: {file_path: collection.backdrop_path}})
+			if (collection.overview !== undefined) {
+				this.overview = collection.overview
+			}
 
-		this.posters.add(...posters)
-		this.backdrops.add(...backdrops)
-		this.parts.add(...collectionParts)
+			// Set primary items.
+			if (collection.poster_path !== undefined) {
+				this.posters.setMain({poster: {file_path: collection.poster_path}})
+			}
+
+			if (collection.backdrop_path !== undefined) {
+				this.backdrops.setMain({backdrop: {file_path: collection.backdrop_path}})
+			}
+
+			// Spread out the parts.
+			if (collection.parts != undefined) {
+				let collectionParts = collection.parts
+				collectionParts = collectionParts.map((part) => ({movie: part}))
+				this.parts.add(...collectionParts)
+			}
+		}
+
+		//+ ASSIGN BACKDROPS ARRAY +//
+		if (backdrops != undefined) {
+			// Prepare items to be used in the class constructor.
+			backdrops = backdrops.map((backdrop) => ({backdrop}))
+			this.backdrops.add(...backdrops)
+		}
+		//+ ASSIGN POSTERS ARRAY +//
+		if (posters != undefined) {
+			// Prepare items to be used in the class constructor.
+			posters = posters.map((poster) => ({poster}))
+			this.posters.add(...posters)
+		}
 
 		// Clean up class data.
 		this.assignDefaults( )
+	}
+
+	static matches (item01, item02) {
+		if (!(item01 instanceof Collection && item02 instanceof Collection)) {
+			throw new Error('Using Collection.matches( ) with an invalid object')
+		}
+
+		return item01.ids.api === item02.ids.api
+	}
+
+	static combine (item01, item02) {
+		// ⚠️ complete this function
+		return item01
 	}
 }
 
