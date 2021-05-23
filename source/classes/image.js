@@ -48,12 +48,12 @@ class Image {
 			if (image.file_path != undefined) {
 				this.basePath = image.file_path
 
-				const regex = /^\/https?:\/\//
+				const regex = /^\/?https?:\/\//
 				if (regex.test(this.basePath)) {
 					this.sizes.push({
 						facet: 'external',
 						size: null,
-						url: this.basePath.slice(1),
+						url: this.basePath.replace(regex, 'https://'),
 					})
 				}
 				else {
