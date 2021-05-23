@@ -1,0 +1,21 @@
+{
+	"name": "classy-tmdb-api",
+	"version": "3.1.0",
+	"description": "An api-wrapper for the-movie-db api v3. It returns javascript classes for its various imports and fetch calls.",
+	"main": "main.js",
+	"type": "module",
+	"scripts": {
+		"start": "node ./source/main.js",
+		"test": "node ./source/test.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/noltron000/classy-tmdb-api.git"
+	},
+	"author": "noltron000",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/noltron000/classy-tmdb-api/issues"
+	},
+	"homepage": "https://github.com/noltron000/classy-tmdb-api#readme"
+}
