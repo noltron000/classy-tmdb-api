@@ -167,12 +167,12 @@ class Movie {
 				this.languages.setMain({language: {iso_639_1: movie.original_language}})
 			}
 
-			if (movie.backdrop_path !== undefined) {
+			if (movie.poster_path !== undefined) {
 				this.posters.setMain({poster: {file_path: movie.poster_path}})
 			}
 
-			if (movie.backdrop_path !== undefined) {
-				this.releases.setMain({release: {date: movie.release_date}})
+			if (movie.release_date !== undefined) {
+				this.releases.setMain({release: {release_date: movie.release_date}})
 			}
 
 			// Add data from movie source.

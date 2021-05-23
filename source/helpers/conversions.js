@@ -109,7 +109,7 @@ const convertToEasyDuration = (totalSeconds) => {
 
 
 
-const cleanseIso6391 = (code) => {
+const cleanseIsoCode = (code) => {
 	if (typeof code !== 'string' || code === 'xx' || code === '') {
 		return null
 	}
@@ -125,5 +125,5 @@ export {
 	convertToEasyDuration,
 	convertToStarGrade,
 	convertToVulgarFraction,
-	cleanseIso6391,
+	cleanseIsoCode,
 }

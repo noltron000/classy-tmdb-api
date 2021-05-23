@@ -30,6 +30,8 @@ class List extends Array {
 	}
 
 	setMain (value) {
+		value = new this.ItemType(value)
+
 		// Check if value is in current array.
 		const oldValue = [...this].find((oldValue) => (
 			this.ItemType.matches(oldValue, value)

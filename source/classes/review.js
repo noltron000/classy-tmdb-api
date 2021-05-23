@@ -1,7 +1,7 @@
 import {
 	convertToEasyDate,
 	convertToStarGrade,
-	cleanseIso6391,
+	cleanseIsoCode,
 } from '../helpers/conversions.js'
 
 import User from './user.js'
@@ -65,7 +65,7 @@ class Review {
 				}
 
 				if (review.iso_639_1 !== undefined) {
-					this['iso639-1'] = cleanseIso6391(review.iso_639_1)
+					this['iso639-1'] = cleanseIsoCode(review.iso_639_1)
 				}
 
 				// Author Data.

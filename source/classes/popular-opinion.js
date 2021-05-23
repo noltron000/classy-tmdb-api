@@ -27,8 +27,10 @@ class PopularOpinion {
 		polling,
 		reviews,
 	}) {
+
 		//+ ASSIGN POLLING DATA +//
 		if (polling != undefined) {
+
 			// Check vote counts and average. Extract the total and count.
 			if (polling.vote_count !== undefined && polling.vote_average !== undefined) {
 				const voteCount = polling.vote_count
@@ -41,6 +43,7 @@ class PopularOpinion {
 
 		//+ ASSIGN REVIEWS ARRAY +//
 		if (reviews != undefined) {
+
 			// Use reviews for histogram information.
 			reviews = new List(Review, ...reviews)
 			reviews.forEach((review) => {

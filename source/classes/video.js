@@ -1,4 +1,4 @@
-import {cleanseIso6391} from '../helpers/conversions.js'
+import {cleanseIsoCode} from '../helpers/conversions.js'
 
 class Video {
 	constructor (data) {
@@ -22,8 +22,8 @@ class Video {
 	/* STEP 2: CLEAN INPUT DATA */
 	assignData (data) {
 		this.ids.api ??= data.id
-		this['iso639-1'] ??= cleanseIso6391(data['iso639-1'])
-		this['iso3166-1'] ??= data['iso3166-1']
+		this['iso639-1'] ??= cleanseIsoCode(data.iso_639_1)
+		this['iso3166-1'] ??= cleanseIsoCode(data.iso_3166_1)
 		this.key ??= data.key
 		this.name ??= data.name
 		this.site ??= data.site

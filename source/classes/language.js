@@ -1,4 +1,4 @@
-import {cleanseIso6391} from '../helpers/conversions.js'
+import {cleanseIsoCode} from '../helpers/conversions.js'
 
 class Language {
 	constructor (data) {
@@ -16,7 +16,7 @@ class Language {
 
 	/* STEP 2: CLEAN INPUT DATA */
 	assignData ({language}) {
-		this['iso639-1'] = cleanseIso6391(language.iso_639_1)
+		this['iso639-1'] = cleanseIsoCode(language.iso_639_1)
 		this.name = language.name
 
 		// Clean up class data.
