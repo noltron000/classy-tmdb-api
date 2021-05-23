@@ -1,21 +1,32 @@
+import {cleanseIsoCode} from '../helpers/conversions.js'
+
 class Country {
-	constructor (data) {
+	constructor (data = { }) {
 		this.assignDefaults( )
-		if (data) {
-			this.assignData(data)
-		}
+		this.assignData(data)
 	}
 
 	/* STEP 1: INITIALIZE CLASS STRUCTURE */
 	assignDefaults ( ) {
-		this['iso3166-1'] ?? null
-		this.name ??= null
+		// this['iso3166-1'] ?? null
+		// this.name ??= null
 	}
 
 	/* STEP 2: CLEAN INPUT DATA */
 	assignData ({country}) {
-		this['iso3166-1'] = country.iso_3166_1
-		this.name = country.name
+
+		//+ ASSIGN COUNTRY DATA +//
+		if (country != undefined) {
+
+			// There is only a name and country-code.
+			if (country.iso_3166_1 !== undefined) {
+				this['iso3166-1'] = cleanseIsoCode(country.iso_3166_1)
+			}
+
+			if (country.name !== undefined) {
+				this.name = country.name
+			}
+		}
 
 		// Clean up class data.
 		this.assignDefaults( )
