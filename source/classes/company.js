@@ -3,40 +3,65 @@ import Country from './country.js'
 
 
 class Company {
-	constructor (data) {
+	constructor (data = { }) {
 		this.assignDefaults( )
-		if (data) {
-			this.assignData(data)
-		}
+		this.assignData(data)
 	}
 
 	/* STEP 1: INITIALIZE CLASS STRUCTURE */
 	assignDefaults ( ) {
 		this.ids ??= { }
-		this.ids.api ??= null
+		// this.ids.api ??= null
 
-		this.name ??= null
-		this.description ??= null
-		this.homepage ??= null
-		this.headquarters ??= null
+		// this.name ??= null
+		// this.description ??= null
+		// this.homepage ??= null
+		// this.headquarters ??= null
 
-		this.logo ??= null
-		this.originCountry ??= null
-		this.parentCompany ??= null
+		// this.logo ??= null
+		// this.originCountry ??= null
+		// this.parentCompany ??= null
 	}
 
 	/* STEP 2: CLEAN INPUT DATA */
 	assignData ({company}) {
-		this.ids.api = company.id
 
-		this.name = company.name
-		this.description = company.description
-		this.homepage = company.homepage
-		this.headquarters = company.headquarters
+		//+ ASSIGN COMPANY DATA +//
+		if (company != undefined) {
 
-		company.logo_path && (this.logo = new Logo({logo: {file_path: company.logo_path}}))
-		company.origin_country && (this.originCountry = new Country({country: {'iso3166-1': company.origin_country}}))
-		company.parent_company && (this.parentCompany = new Company({company: {name: company.parent_company}})) // ⚠️ VERIFY
+			// External identification.
+			if (company.id !== undefined) {
+				this.ids.api = company.id
+			}
+
+			// Basic information.
+			if (company.name !== undefined) {
+				this.name = company.name
+			}
+
+			if (company.description !== undefined) {
+				this.description = company.description
+			}
+
+			if (company.homepage !== undefined) {
+				this.homepage = company.homepage
+			}
+
+			if (company.headquarters !== undefined) {
+				this.headquarters = company.headquarters
+			}
+
+			// Other resources.
+			if (company.logo_path !== undefined) {
+				this.logo = new Logo({logo: {file_path: company.logo_path}})
+			}
+			if (company.origin_country !== undefined) {
+				this.originCountry = new Country({country: {'iso_3166_1': company.origin_country}})
+			}
+			if (company.parent_company !== undefined) {
+				this.parentCompany = new Company({company: {name: company.parent_company}})
+			}
+		}
 
 		// Clean up class data.
 		this.assignDefaults( )

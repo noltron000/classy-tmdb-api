@@ -1,5 +1,5 @@
 class Config {
-	constructor (data) {
+	constructor (data = { }) {
 		this.assignDefaults( )
 		this.assignData(data)
 	}

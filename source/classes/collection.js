@@ -3,11 +3,9 @@ import {Poster, Backdrop} from './image.js'
 import Movie from './movie.js'
 
 class Collection {
-	constructor (data) {
+	constructor (data = { }) {
 		this.assignDefaults( )
-		if (data) {
-			this.assignData(data)
-		}
+		this.assignData(data)
 	}
 
 	/* STEP 1: INITIALIZE CLASS STRUCTURE */
