@@ -75,6 +75,29 @@ class Image {
 				}
 			}
 
+			// Special case for thumbnails.
+			if (image.key != undefined && this.type === 'thumbnail') {
+				this.basePath = `https://img.youtube.com/vi/${image.key}`
+				const sizes = [
+					{
+						urls: {main: `${this.basePath}/hqdefault.jpg`},
+						facet: 'width',
+						size: 480,
+					},
+					{
+						urls: {main: `${this.basePath}/mqdefault.jpg`},
+						facet: 'width',
+						size: 320,
+					},
+					{
+						urls: {main: `${this.basePath}/default.jpg`},
+						facet: 'width',
+						size: 120,
+					},
+				]
+				this.sizes.push(...sizes)
+			}
+
 			// Add opinions from the image data.
 			this.ratings.assignData({
 				data: {vote_count: image.vote_count, vote_average: image.vote_average},
@@ -139,6 +162,12 @@ class Still extends Image {
 	}
 }
 
+class Thumbnail extends Image {
+	constructor ({thumbnail}) {
+		super('thumbnail', {image: thumbnail})
+	}
+}
+
 export {
 	Image,
 	Backdrop,
@@ -146,4 +175,5 @@ export {
 	Avatar,
 	Logo,
 	Still,
+	Thumbnail,
 }
