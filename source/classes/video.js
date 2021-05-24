@@ -83,6 +83,10 @@ class Video {
 		this.assignDefaults( )
 	}
 
+	toJSON ( ) {
+		return this
+	}
+
 	static matches (item01, item02) {
 		if (!(item01 instanceof Video && item02 instanceof Video)) {
 			throw new Error('Using Video.matches( ) with an invalid object')

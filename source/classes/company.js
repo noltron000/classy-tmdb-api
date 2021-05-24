@@ -67,6 +67,10 @@ class Company {
 		this.assignDefaults( )
 	}
 
+	toJSON ( ) {
+		return this
+	}
+
 	static matches (item01, item02) {
 		if (!(item01 instanceof Company && item02 instanceof Company)) {
 			throw new Error('Using Company.matches( ) with an invalid object')

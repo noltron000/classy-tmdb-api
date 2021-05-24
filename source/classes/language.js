@@ -29,6 +29,10 @@ class Language {
 		this.assignDefaults( )
 	}
 
+	toJSON ( ) {
+		return this
+	}
+
 	static matches (item01, item02) {
 		if (!(item01 instanceof Language && item02 instanceof Language)) {
 			throw new Error('Using Language.matches( ) with an invalid object')

@@ -28,6 +28,7 @@ class Collection {
 		backdrops,
 		posters,
 	}) {
+
 		//+ ADD COLLECTION DATA +//
 		if (collection != undefined) {
 
@@ -68,6 +69,7 @@ class Collection {
 			backdrops = backdrops.map((backdrop) => ({backdrop}))
 			this.backdrops.add(...backdrops)
 		}
+
 		//+ ASSIGN POSTERS ARRAY +//
 		if (posters != undefined) {
 			// Prepare items to be used in the class constructor.
@@ -77,6 +79,10 @@ class Collection {
 
 		// Clean up class data.
 		this.assignDefaults( )
+	}
+
+	toJSON ( ) {
+		return this
 	}
 
 	static matches (item01, item02) {

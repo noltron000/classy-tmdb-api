@@ -49,11 +49,15 @@ class List extends Array {
 		}
 	}
 
+	get values ( ) {
+		return [...this]
+	}
+
 	toJSON ( ) {
 		const json = { }
 		json.ItemType = this.ItemType
 		json.main = this.main
-		json.values = [...this]
+		json.values = this.values
 		return json
 	}
 }

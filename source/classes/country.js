@@ -32,6 +32,10 @@ class Country {
 		this.assignDefaults( )
 	}
 
+	toJSON ( ) {
+		return this
+	}
+
 	static matches (item01, item02) {
 		if (!(item01 instanceof Country && item02 instanceof Country)) {
 			throw new Error('Using Country.matches( ) with an invalid object')
