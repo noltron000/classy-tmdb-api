@@ -1,6 +1,6 @@
-import {List} from './list.js'
 import {Config} from './config.js'
-import {Poster, Backdrop} from './image.js'
+import {Image, Poster, Backdrop} from './image.js'
+import {List} from './list.js'
 import {Movie} from './movie.js'
 
 class Collection {

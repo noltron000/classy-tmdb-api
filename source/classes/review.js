@@ -1,12 +1,12 @@
-import {Config} from './config.js'
 import {
 	convertToEasyDate,
 	convertToStarGrade,
 	cleanseIsoCode,
 } from '../helpers/conversions.js'
 
-import {User} from './user.js'
+import {Config} from './config.js'
 import {Movie} from './movie.js'
+import {User} from './user.js'
 
 class Review {
 	#config

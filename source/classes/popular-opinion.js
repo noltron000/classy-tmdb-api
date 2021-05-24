@@ -1,7 +1,11 @@
-import {convertToStarGrade, convertToVulgarFraction} from '../helpers/conversions.js'
+import {
+	convertToStarGrade,
+	convertToVulgarFraction,
+} from '../helpers/conversions.js'
+
+import {Config} from './config.js'
 import {List} from './list.js'
 import {Review} from './review.js'
-import {Config} from './config.js'
 
 class PopularOpinion {
 	#config

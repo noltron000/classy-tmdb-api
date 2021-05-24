@@ -1,7 +1,6 @@
-import {Logo} from './image.js'
 import {Config} from './config.js'
 import {Country} from './country.js'
-
+import {Logo} from './image.js'
 
 class Company {
 	#config

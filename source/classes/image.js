@@ -1,5 +1,6 @@
-import {Config} from './config.js'
 import {cleanseIsoCode} from '../helpers/conversions.js'
+
+import {Config} from './config.js'
 import {PopularOpinion} from './popular-opinion.js'
 
 class Image {

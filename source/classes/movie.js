@@ -1,16 +1,17 @@
 import {convertToEasyDuration} from '../helpers/conversions.js'
-import {List} from './list.js'
-import {Poster, Backdrop} from './image.js'
-import {Video} from './video.js'
+
 import {Collection} from './collection.js'
 import {Company} from './company.js'
 import {Config} from './config.js'
 import {Country} from './country.js'
 import {Genre} from './genre.js'
+import {Image, Backdrop, Poster} from './image.js'
 import {Language} from './language.js'
+import {List} from './list.js'
 import {PopularOpinion} from './popular-opinion.js'
 import {Release} from './release.js'
 import {Review} from './review.js'
+import {Video} from './video.js'
 
 /*
 Types of Movie Data:

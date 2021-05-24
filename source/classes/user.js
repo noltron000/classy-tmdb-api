@@ -1,4 +1,5 @@
 import {Avatar} from './image.js'
+import {Config} from './config.js'
 
 class User {
 	#config
