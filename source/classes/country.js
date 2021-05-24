@@ -1,5 +1,5 @@
 import {cleanseIsoCode} from '../helpers/conversions.js'
-
+import {Config} from './config.js'
 class Country {
 	#config
 	constructor (data = { }) {
@@ -34,7 +34,7 @@ class Country {
 
 		//+ FIRST, PREPARE THE CONFIG +//
 		if (config != undefined) {
-			this.#config = new Config(data)
+		this.#config = new Config({config})
 		}
 
 		//+ ASSIGN COUNTRY DATA +//

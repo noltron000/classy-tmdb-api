@@ -1,6 +1,7 @@
 import {convertToStarGrade, convertToVulgarFraction} from '../helpers/conversions.js'
 import {List} from './list.js'
 import {Review} from './review.js'
+import {Config} from './config.js'
 
 class PopularOpinion {
 	#config
@@ -45,7 +46,7 @@ class PopularOpinion {
 
 		//+ FIRST, PREPARE THE CONFIG +//
 		if (config != undefined) {
-			this.#config = new Config(data)
+			this.#config = new Config({config})
 		}
 
 		//+ ASSIGN POLLING DATA +//

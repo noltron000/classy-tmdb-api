@@ -1,3 +1,4 @@
+import {Config} from './config.js'
 import {cleanseIsoCode} from '../helpers/conversions.js'
 import {Thumbnail} from './image.js'
 import {List} from './list.js'
@@ -47,7 +48,7 @@ class Video {
 
 		//+ FIRST, PREPARE THE CONFIG +//
 		if (config != undefined) {
-			this.#config = new Config(data)
+			this.#config = new Config({config})
 		}
 
 		//+ ASSIGN VIDEO DATA +//

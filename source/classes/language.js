@@ -1,4 +1,5 @@
 import {cleanseIsoCode} from '../helpers/conversions.js'
+import {Config} from './config.js'
 
 class Language {
 	#config
@@ -34,7 +35,7 @@ class Language {
 
 		//+ FIRST, PREPARE THE CONFIG +//
 		if (config != undefined) {
-			this.#config = new Config(data)
+			this.#config = new Config({config})
 		}
 
 		//+ ASSIGN LANGUAGE DATA +//

@@ -1,3 +1,5 @@
+import {Config} from './config.js'
+
 class Comment {
 	#config
 	constructor (data = { }) {
@@ -29,7 +31,7 @@ class Comment {
 
 		//+ FIRST, PREPARE THE CONFIG +//
 		if (config != undefined) {
-			this.#config = new Config(data)
+			this.#config = new Config({config})
 		}
 
 		// Clean up class data.

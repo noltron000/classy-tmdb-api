@@ -4,6 +4,7 @@ import {Poster, Backdrop} from './image.js'
 import {Video} from './video.js'
 import {Collection} from './collection.js'
 import {Company} from './company.js'
+import {Config} from './config.js'
 import {Country} from './country.js'
 import {Genre} from './genre.js'
 import {Language} from './language.js'
@@ -103,7 +104,7 @@ class Movie {
 
 		//+ FIRST, PREPARE THE CONFIG +//
 		if (config != undefined) {
-			this.#config = new Config(data)
+			this.#config = new Config({config})
 		}
 
 		//+ ASSIGN MOVIE DATA +//

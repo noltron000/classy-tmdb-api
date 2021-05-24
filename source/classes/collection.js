@@ -1,4 +1,5 @@
 import {List} from './list.js'
+import {Config} from './config.js'
 import {Poster, Backdrop} from './image.js'
 import {Movie} from './movie.js'
 
@@ -46,7 +47,7 @@ class Collection {
 
 		//+ FIRST, PREPARE THE CONFIG +//
 		if (config != undefined) {
-			this.#config = new Config(data)
+			this.#config = new Config({config})
 		}
 
 		//+ ADD COLLECTION DATA +//

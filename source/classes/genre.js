@@ -1,3 +1,5 @@
+import {Config} from './config.js'
+
 class Genre {
 	#config
 	constructor (data = { }) {
@@ -35,7 +37,7 @@ class Genre {
 	}) {
 		//+ FIRST, PREPARE THE CONFIG +//
 		if (config != undefined) {
-			this.#config = new Config(data)
+			this.#config = new Config({config})
 		}
 
 		//+ ASSIGN GENRE DATA +//

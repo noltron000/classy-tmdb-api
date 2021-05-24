@@ -1,4 +1,5 @@
 import {Logo} from './image.js'
+import {Config} from './config.js'
 import {Country} from './country.js'
 
 
@@ -45,7 +46,7 @@ class Company {
 
 		//+ FIRST, PREPARE THE CONFIG +//
 		if (config != undefined) {
-			this.#config = new Config(data)
+			this.#config = new Config({config})
 		}
 
 		//+ ASSIGN COMPANY DATA +//
