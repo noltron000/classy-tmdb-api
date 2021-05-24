@@ -46,9 +46,15 @@ class Review {
 
 	/* STEP 2: CLEAN INPUT DATA */
 	assignData ({
+		config,
 		review,
 		movie,
 	}) {
+
+		//+ FIRST, PREPARE THE CONFIG +//
+		if (config != undefined) {
+			this.#config = new Config(data)
+		}
 
 		//+ ASSIGN REVIEW DATA +//
 		if (review != undefined) {

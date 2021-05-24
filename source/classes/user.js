@@ -26,7 +26,16 @@ class User {
 	}
 
 	/* STEP 2: CLEAN INPUT DATA */
-	assignData ({user}) {
+	assignData ({
+		config,
+		user,
+	}) {
+
+		//+ FIRST, PREPARE THE CONFIG +//
+		if (config != undefined) {
+			this.#config = new Config(data)
+		}
+
 		if (user != undefined) {
 			if (user.id !== undefined) {
 				this.ids.api = user.id

@@ -29,7 +29,15 @@ class Genre {
 	}
 
 	/* STEP 2: CLEAN INPUT DATA */
-	assignData ({genre}) {
+	assignData ({
+		config,
+		genre,
+	}) {
+		//+ FIRST, PREPARE THE CONFIG +//
+		if (config != undefined) {
+			this.#config = new Config(data)
+		}
+
 		//+ ASSIGN GENRE DATA +//
 		if (genre != undefined) {
 

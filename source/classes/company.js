@@ -38,7 +38,15 @@ class Company {
 	}
 
 	/* STEP 2: CLEAN INPUT DATA */
-	assignData ({company}) {
+	assignData ({
+		config,
+		company,
+	}) {
+
+		//+ FIRST, PREPARE THE CONFIG +//
+		if (config != undefined) {
+			this.#config = new Config(data)
+		}
 
 		//+ ASSIGN COMPANY DATA +//
 		if (company != undefined) {

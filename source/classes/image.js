@@ -1,4 +1,4 @@
-import config from '../config.js'
+import {Config} from './config.js'
 import {cleanseIsoCode} from '../helpers/conversions.js'
 import {PopularOpinion} from './popular-opinion.js'
 
@@ -36,9 +36,15 @@ class Image {
 
 	/* STEP 2: CLEAN INPUT DATA */
 	assignData ({
+		config,
 		image,
 		movie,
 	}) {
+
+		//+ FIRST, PREPARE THE CONFIG +//
+		if (config != undefined) {
+			this.#config = new Config(data)
+		}
 
 		//+ ASSIGN IMAGE DATA +//
 		if (image != undefined) {

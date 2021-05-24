@@ -86,18 +86,25 @@ class Movie {
 
 	/* STEP 2: CLEAN INPUT DATA */
 	assignData ({
+		config,
 		movie,
 		backdrops,
 		collections,
 		companies,
 		countries, // not expected
 		genres,    // not expected
+		images,    // contains backdrops and posters
 		languages, // not expected
 		posters,
 		releases,
 		reviews,
 		videos,
 	}) {
+
+		//+ FIRST, PREPARE THE CONFIG +//
+		if (config != undefined) {
+			this.#config = new Config(data)
+		}
 
 		//+ ASSIGN MOVIE DATA +//
 		if (movie != undefined) {

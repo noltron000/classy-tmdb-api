@@ -22,7 +22,16 @@ class Comment {
 	assignDefaults ( ) { }
 
 	/* STEP 2: CLEAN INPUT DATA */
-	assignData ({comment}) {
+	assignData ({
+		config,
+		comment,
+	}) {
+
+		//+ FIRST, PREPARE THE CONFIG +//
+		if (config != undefined) {
+			this.#config = new Config(data)
+		}
+
 		// Clean up class data.
 		this.assignDefaults( )
 	}

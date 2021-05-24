@@ -34,7 +34,15 @@ class Release {
 	}
 
 	/* STEP 2: CLEAN INPUT DATA */
-	assignData ({release}) {
+	assignData ({
+		config,
+		release,
+	}) {
+
+		//+ FIRST, PREPARE THE CONFIG +//
+		if (config != undefined) {
+			this.#config = new Config(data)
+		}
 
 		//+ ASSIGN RELEASE DATA +//
 		if (release != undefined) {

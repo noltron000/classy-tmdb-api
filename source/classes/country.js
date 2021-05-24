@@ -27,7 +27,15 @@ class Country {
 	}
 
 	/* STEP 2: CLEAN INPUT DATA */
-	assignData ({country}) {
+	assignData ({
+		config,
+		country,
+	}) {
+
+		//+ FIRST, PREPARE THE CONFIG +//
+		if (config != undefined) {
+			this.#config = new Config(data)
+		}
 
 		//+ ASSIGN COUNTRY DATA +//
 		if (country != undefined) {

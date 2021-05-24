@@ -27,7 +27,15 @@ class Language {
 	}
 
 	/* STEP 2: CLEAN INPUT DATA */
-	assignData ({language}) {
+	assignData ({
+		config,
+		language,
+	}) {
+
+		//+ FIRST, PREPARE THE CONFIG +//
+		if (config != undefined) {
+			this.#config = new Config(data)
+		}
 
 		//+ ASSIGN LANGUAGE DATA +//
 		if (language != undefined) {

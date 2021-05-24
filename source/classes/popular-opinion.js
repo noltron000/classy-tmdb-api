@@ -38,9 +38,15 @@ class PopularOpinion {
 
 	/* STEP 2: CLEAN INPUT DATA */
 	assignData ({
+		config,
 		polling,
 		reviews,
 	}) {
+
+		//+ FIRST, PREPARE THE CONFIG +//
+		if (config != undefined) {
+			this.#config = new Config(data)
+		}
 
 		//+ ASSIGN POLLING DATA +//
 		if (polling != undefined) {

@@ -40,7 +40,16 @@ class Video {
 	}
 
 	/* STEP 2: CLEAN INPUT DATA */
-	assignData ({video}) {
+	assignData ({
+		config,
+		video,
+	}) {
+
+		//+ FIRST, PREPARE THE CONFIG +//
+		if (config != undefined) {
+			this.#config = new Config(data)
+		}
+
 		//+ ASSIGN VIDEO DATA +//
 		if (video != undefined) {
 			if (video.id !== undefined) {

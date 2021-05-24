@@ -38,10 +38,16 @@ class Collection {
 
 	/* STEP 2: CLEAN INPUT DATA */
 	assignData ({
+		config,
 		collection,
 		backdrops,
 		posters,
 	}) {
+
+		//+ FIRST, PREPARE THE CONFIG +//
+		if (config != undefined) {
+			this.#config = new Config(data)
+		}
 
 		//+ ADD COLLECTION DATA +//
 		if (collection != undefined) {
