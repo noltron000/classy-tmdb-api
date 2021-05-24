@@ -58,4 +58,4 @@ class List extends Array {
 	}
 }
 
-export default List
+export {List}

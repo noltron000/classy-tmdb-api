@@ -1,5 +1,5 @@
 import {Logo} from './image.js'
-import Country from './country.js'
+import {Country} from './country.js'
 
 
 class Company {
@@ -81,4 +81,4 @@ class Company {
 	}
 }
 
-export default Company
+export {Company}

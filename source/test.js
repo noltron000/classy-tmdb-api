@@ -1,5 +1,5 @@
-import Movie from './classes/movie.js'
 import data from './test-data.js'
+import {Movie} from './classes/movie.js'
 
 const main = ( ) => {
 	const movie = new Movie(data)

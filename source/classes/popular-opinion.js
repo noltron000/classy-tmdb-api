@@ -1,6 +1,6 @@
 import {convertToStarGrade, convertToVulgarFraction} from '../helpers/conversions.js'
-import List from './list.js'
-import Review from './review.js'
+import {List} from './list.js'
+import {Review} from './review.js'
 
 class PopularOpinion {
 	constructor (data = { }) {
@@ -97,4 +97,4 @@ class PopularOpinion {
 	}
 }
 
-export default PopularOpinion
+export {PopularOpinion}

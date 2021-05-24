@@ -43,4 +43,4 @@ class Language {
 	}
 }
 
-export default Language
+export {Language}

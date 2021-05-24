@@ -48,4 +48,4 @@ class Genre {
 	}
 }
 
-export default Genre
+export {Genre}

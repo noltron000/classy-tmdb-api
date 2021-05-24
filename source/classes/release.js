@@ -79,4 +79,4 @@ class Release {
 	}
 }
 
-export default Release
+export {Release}

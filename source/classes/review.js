@@ -4,8 +4,8 @@ import {
 	cleanseIsoCode,
 } from '../helpers/conversions.js'
 
-import User from './user.js'
-import Movie from './movie.js'
+import {User} from './user.js'
+import {Movie} from './movie.js'
 
 class Review {
 	constructor (data) {
@@ -109,4 +109,4 @@ class Review {
 	}
 }
 
-export default Review
+export {Review}
