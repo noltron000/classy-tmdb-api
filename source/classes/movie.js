@@ -19,9 +19,23 @@ Types of Movie Data:
 */
 
 class Movie {
+	#config
 	constructor (data = { }) {
-		this.assignDefaults( )
-		this.assignData(data)
+		let self = this  // allow forgetting of "this"
+		data = {...data}  // dont mutate input data
+		// If the data already has an instance of this class,
+		// 	then there is no point in creating a new instance.
+		// We can replace "self" instance, thus forgetting it.
+		if (data.movie instanceof Movie) {
+			self = data.movie
+			delete data.movie
+		}
+
+		self.assignDefaults( )
+		self.assignData(data)
+
+		// override the returning of "this".
+		return self
 	}
 
 	/* STEP 1: INITIALIZE CLASS STRUCTURE */
