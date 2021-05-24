@@ -54,10 +54,9 @@ class List extends Array {
 	}
 
 	toJSON ( ) {
-		const json = { }
-		json.ItemType = this.ItemType
-		json.main = this.main
-		json.values = this.values
+		const json = [ ]
+		json.push(this.main ?? null)
+		json.push(...this.values)
 		return json
 	}
 }
