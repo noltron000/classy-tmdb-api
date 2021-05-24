@@ -1,7 +1,6 @@
-import {cleanseIsoCode} from '../helpers/conversions.js'
-
 import config from '../config.js'
-import PopularOpinion from './popular-opinion.js'
+import {cleanseIsoCode} from '../helpers/conversions.js'
+import {PopularOpinion} from './popular-opinion.js'
 
 class Image {
 	constructor (type, data = { }) {

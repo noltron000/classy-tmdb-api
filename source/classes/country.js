@@ -46,4 +46,4 @@ class Country {
 	}
 }
 
-export default Country
+export {Country}

@@ -1,6 +1,6 @@
-import List from './list.js'
+import {List} from './list.js'
 import {Poster, Backdrop} from './image.js'
-import Movie from './movie.js'
+import {Movie} from './movie.js'
 
 class Collection {
 	constructor (data = { }) {
@@ -93,7 +93,7 @@ class Collection {
 	}
 }
 
-export default Collection
+export {Collection}
 
 
 		// "id": 729322,
