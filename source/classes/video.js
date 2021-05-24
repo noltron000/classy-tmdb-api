@@ -58,6 +58,7 @@ class Video {
 			if (this.site !== undefined && this.key !== undefined) {
 				if (this.site === 'YouTube') {
 					this.url = `https://www.youtube.com/watch?v=${this.key}`
+					this.embedUrl = `https://www.youtube.com/embed/${this.key}`
 				}
 
 				else if (this.site === 'Vimeo') {

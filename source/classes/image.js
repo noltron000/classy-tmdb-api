@@ -52,7 +52,7 @@ class Image {
 					this.sizes.push({
 						facet: 'external',
 						size: null,
-						url: this.basePath.replace(regex, 'https://'),
+						urls: {main: this.basePath.replace(regex, 'https://')},
 					})
 				}
 				else {
@@ -69,7 +69,7 @@ class Image {
 								url += imageSize.size
 							}
 							url += this.basePath
-							return {...imageSize, url}
+							return {...imageSize, urls: {main: url}}
 						})
 					)
 				}
