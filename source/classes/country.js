@@ -37,7 +37,7 @@ class Country {
 			throw new Error('Using Country.matches( ) with an invalid object')
 		}
 
-		return item01.ids.api === item02.ids.api
+		return item01.name === item02.name
 	}
 
 	static combine (item01, item02) {
