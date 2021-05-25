@@ -40,21 +40,22 @@ class Config {
 			this.images.baseURL.default = config.images.base_url
 			this.images.baseURL.secure = config.images.secure_base_url
 
-			const cleanSize = (size) => {
+			const cleanSize = (sizeStr) => {
 				const cleaned = {
 					facet: null,
 					size: null,
 				}
-				if (size.type === 'tag') {
-					cleaned.facet = size.value
+				if (sizeStr === 'original') {
+					cleaned.facet = sizeStr
+					cleaned.size = null
 				}
-				else if (size.type === 'w') {
+				else if (sizeStr[0] === 'w') {
 					cleaned.facet = 'width'
-					cleaned.size = size.value
+					cleaned.size = parseInt(sizeStr.slice(1))
 				}
-				else if (size.type === 'h') {
+				else if (sizeStr[0] === 'h') {
 					cleaned.facet = 'height'
-					cleaned.size = size.value
+					cleaned.size = parseInt(sizeStr.slice(1))
 				}
 				return cleaned
 			}
