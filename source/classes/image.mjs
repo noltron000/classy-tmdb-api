@@ -1,12 +1,36 @@
-import config from '../config.js'
-import {cleanseIsoCode} from '../helpers/conversions.js'
-import {PopularOpinion} from './popular-opinion.js'
+import {cleanseIsoCode} from '../helpers/conversions.mjs'
+
+import {Config} from './config.mjs'
+import {PopularOpinion} from './popular-opinion.mjs'
 
 class Image {
-	constructor (type, data = { }) {
-		this.type = type
-		this.assignDefaults( )
-		this.assignData(data)
+	#config
+	constructor (data = { }, type = 'image') {
+		let self = this  // allow forgetting of "this"
+		data = {...data}  // dont mutate input data
+		// Sometimes the image type might be something else,
+		// 	especially if it is an extended class / subclass.
+		// For example, an avatar extends an image.
+		if (type !== 'image') {
+			data.image = data[type]
+			delete data[type]
+		}
+		// If the data already has an instance of this class,
+		// 	then there is no point in creating a new instance.
+		// We can replace "self" instance, thus forgetting it.
+		if (data.image instanceof Image && type === data.image.type) {
+			self = data.image
+			delete data.image
+		}
+		else {
+			self.type = type
+		}
+
+		self.assignDefaults( )
+		self.assignData(data)
+
+		// override the returning of "this".
+		return self
 	}
 
 	/* STEP 1: INITIALIZE CLASS STRUCTURE */
@@ -23,9 +47,15 @@ class Image {
 
 	/* STEP 2: CLEAN INPUT DATA */
 	assignData ({
+		config,
 		image,
 		movie,
 	}) {
+
+		//+ FIRST, PREPARE THE CONFIG +//
+		if (config != undefined) {
+			this.#config = new Config({...this.#shared, config})
+		}
 
 		//+ ASSIGN IMAGE DATA +//
 		if (image != undefined) {
@@ -52,12 +82,12 @@ class Image {
 					this.sizes.push({
 						facet: 'external',
 						size: null,
-						url: this.basePath.replace(regex, 'https://'),
+						urls: {main: this.basePath.replace(regex, 'https://')},
 					})
 				}
 				else {
 					this.sizes.push(
-						...config
+						...this.#config
 						.images[`${this.type}Sizes`]
 						.map((imageSize) => {
 							let url = config.images.baseURL.secure ?? config.images.baseURL.default
@@ -69,14 +99,38 @@ class Image {
 								url += imageSize.size
 							}
 							url += this.basePath
-							return {...imageSize, url}
+							return {...imageSize, urls: {main: url}}
 						})
 					)
 				}
 			}
 
+			// Special case for thumbnails.
+			if (image.key != undefined && this.type === 'thumbnail') {
+				this.basePath = `https://img.youtube.com/vi/${image.key}`
+				const sizes = [
+					{
+						urls: {main: `${this.basePath}/hqdefault.jpg`},
+						facet: 'width',
+						size: 480,
+					},
+					{
+						urls: {main: `${this.basePath}/mqdefault.jpg`},
+						facet: 'width',
+						size: 320,
+					},
+					{
+						urls: {main: `${this.basePath}/default.jpg`},
+						facet: 'width',
+						size: 120,
+					},
+				]
+				this.sizes.push(...sizes)
+			}
+
 			// Add opinions from the image data.
 			this.ratings.assignData({
+				...this.#shared,
 				data: {vote_count: image.vote_count, vote_average: image.vote_average},
 			})
 		}
@@ -95,6 +149,13 @@ class Image {
 		return this.originalWidth / this.originalHeight
 	}
 
+	get #shared ( ) {
+		return {
+			[this.type]: this,
+			config: this.#config,
+		}
+	}
+
 	static matches (item01, item02) {
 		if (!(item01 instanceof Image && item02 instanceof Image)) {
 			throw new Error('Using Image.matches( ) with an invalid object')
@@ -110,32 +171,38 @@ class Image {
 }
 
 class Backdrop extends Image {
-	constructor ({backdrop}) {
-		super('backdrop', {image: backdrop})
+	constructor (data) {
+		super(data, 'backdrop')
 	}
 }
 
 class Poster extends Image {
-	constructor ({poster}) {
-		super('poster', {image: poster})
+	constructor (data) {
+		super(data, 'poster')
 	}
 }
 
 class Avatar extends Image {
-	constructor ({avatar}) {
-		super('avatar', {image: avatar})
+	constructor (data) {
+		super(data, 'avatar')
 	}
 }
 
 class Logo extends Image {
-	constructor ({logo}) {
-		super('logo', {image: logo})
+	constructor (data) {
+		super(data, 'logo')
 	}
 }
 
 class Still extends Image {
-	constructor ({still}) {
-		super('still', {image: still})
+	constructor (data) {
+		super(data, 'still')
+	}
+}
+
+class Thumbnail extends Image {
+	constructor (data) {
+		super(data, 'thumbnail')
 	}
 }
 
@@ -146,4 +213,5 @@ export {
 	Avatar,
 	Logo,
 	Still,
+	Thumbnail,
 }

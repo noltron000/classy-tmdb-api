@@ -49,11 +49,14 @@ class List extends Array {
 		}
 	}
 
+	get values ( ) {
+		return [...this]
+	}
+
 	toJSON ( ) {
-		const json = { }
-		json.ItemType = this.ItemType
-		json.main = this.main
-		json.values = [...this]
+		const json = [ ]
+		json.push(this.main ?? null)
+		json.push(...this.values)
 		return json
 	}
 }

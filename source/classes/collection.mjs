@@ -1,11 +1,26 @@
-import {List} from './list.js'
-import {Poster, Backdrop} from './image.js'
-import {Movie} from './movie.js'
+import {Config} from './config.mjs'
+import {Image, Poster, Backdrop} from './image.mjs'
+import {List} from './list.mjs'
+import {Movie} from './movie.mjs'
 
 class Collection {
+	#config
 	constructor (data = { }) {
-		this.assignDefaults( )
-		this.assignData(data)
+		let self = this  // allow forgetting of "this"
+		data = {...data}  // dont mutate input data
+		// If the data already has an instance of this class,
+		// 	then there is no point in creating a new instance.
+		// We can replace "self" instance, thus forgetting it.
+		if (data.collection instanceof Collection) {
+			self = data.collection
+			delete data.collection
+		}
+
+		self.assignDefaults( )
+		self.assignData(data)
+
+		// override the returning of "this".
+		return self
 	}
 
 	/* STEP 1: INITIALIZE CLASS STRUCTURE */
@@ -24,10 +39,17 @@ class Collection {
 
 	/* STEP 2: CLEAN INPUT DATA */
 	assignData ({
+		config,
 		collection,
 		backdrops,
 		posters,
 	}) {
+
+		//+ FIRST, PREPARE THE CONFIG +//
+		if (config != undefined) {
+			this.#config = new Config({...this.#shared, config})
+		}
+
 		//+ ADD COLLECTION DATA +//
 		if (collection != undefined) {
 
@@ -47,17 +69,23 @@ class Collection {
 
 			// Set primary items.
 			if (collection.poster_path !== undefined) {
-				this.posters.setMain({poster: {file_path: collection.poster_path}})
+				this.posters.setMain({
+					...this.#shared,
+					poster: {file_path: collection.poster_path},
+				})
 			}
 
 			if (collection.backdrop_path !== undefined) {
-				this.backdrops.setMain({backdrop: {file_path: collection.backdrop_path}})
+				this.backdrops.setMain({
+					...this.#shared,
+					backdrop: {file_path: collection.backdrop_path},
+				})
 			}
 
 			// Spread out the parts.
 			if (collection.parts != undefined) {
 				let collectionParts = collection.parts
-				collectionParts = collectionParts.map((part) => ({movie: part}))
+				collectionParts = collectionParts.map((part) => ({...this.#shared, movie: part}))
 				this.parts.add(...collectionParts)
 			}
 		}
@@ -65,18 +93,30 @@ class Collection {
 		//+ ASSIGN BACKDROPS ARRAY +//
 		if (backdrops != undefined) {
 			// Prepare items to be used in the class constructor.
-			backdrops = backdrops.map((backdrop) => ({backdrop}))
+			backdrops = backdrops.map((backdrop) => ({...this.#shared, backdrop}))
 			this.backdrops.add(...backdrops)
 		}
+
 		//+ ASSIGN POSTERS ARRAY +//
 		if (posters != undefined) {
 			// Prepare items to be used in the class constructor.
-			posters = posters.map((poster) => ({poster}))
+			posters = posters.map((poster) => ({...this.#shared, poster}))
 			this.posters.add(...posters)
 		}
 
 		// Clean up class data.
 		this.assignDefaults( )
+	}
+
+	toJSON ( ) {
+		return this
+	}
+
+	get #shared ( ) {
+		return {
+			collection: this,
+			config: this.#config,
+		}
 	}
 
 	static matches (item01, item02) {
