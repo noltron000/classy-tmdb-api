@@ -1,6 +1,6 @@
-import {Config} from './config.js'
-import {Country} from './country.js'
-import {Logo} from './image.js'
+import {Config} from './config.mjs'
+import {Country} from './country.mjs'
+import {Logo} from './image.mjs'
 
 class Company {
 	#config

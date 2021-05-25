@@ -1,8 +1,8 @@
-import {cleanseIsoCode} from '../helpers/conversions.js'
+import {cleanseIsoCode} from '../helpers/conversions.mjs'
 
-import {Config} from './config.js'
+import {Config} from './config.mjs'
 
-class Language {
+class Country {
 	#config
 	constructor (data = { }) {
 		let self = this  // allow forgetting of "this"
@@ -10,9 +10,9 @@ class Language {
 		// If the data already has an instance of this class,
 		// 	then there is no point in creating a new instance.
 		// We can replace "self" instance, thus forgetting it.
-		if (data.language instanceof Language) {
-			self = data.language
-			delete data.language
+		if (data.country instanceof Country) {
+			self = data.country
+			delete data.country
 		}
 
 		self.assignDefaults( )
@@ -24,28 +24,31 @@ class Language {
 
 	/* STEP 1: INITIALIZE CLASS STRUCTURE */
 	assignDefaults ( ) {
-		// this['iso639-1'] ??= null
+		// this['iso3166-1'] ?? null
 		// this.name ??= null
 	}
 
 	/* STEP 2: CLEAN INPUT DATA */
 	assignData ({
 		config,
-		language,
+		country,
 	}) {
 
 		//+ FIRST, PREPARE THE CONFIG +//
 		if (config != undefined) {
-			this.#config = new Config({...this.#shared, config})
+		this.#config = new Config({...this.#shared, config})
 		}
 
-		//+ ASSIGN LANGUAGE DATA +//
-		if (language != undefined) {
-			if (language.iso_639_1 !== undefined) {
-				this['iso639-1'] = cleanseIsoCode(language.iso_639_1) || undefined
+		//+ ASSIGN COUNTRY DATA +//
+		if (country != undefined) {
+
+			// There is only a name and country-code.
+			if (country.iso_3166_1 !== undefined) {
+				this['iso3166-1'] = cleanseIsoCode(country.iso_3166_1)
 			}
-			if (language.name !== undefined) {
-				this.name = language.name
+
+			if (country.name !== undefined) {
+				this.name = country.name
 			}
 		}
 
@@ -59,17 +62,17 @@ class Language {
 
 	get #shared ( ) {
 		return {
-			language: this,
+			country: this,
 			config: this.#config,
 		}
 	}
 
 	static matches (item01, item02) {
-		if (!(item01 instanceof Language && item02 instanceof Language)) {
-			throw new Error('Using Language.matches( ) with an invalid object')
+		if (!(item01 instanceof Country && item02 instanceof Country)) {
+			throw new Error('Using Country.matches( ) with an invalid object')
 		}
 
-		return item01.ids.api === item02.ids.api
+		return item01.name === item02.name
 	}
 
 	static combine (item01, item02) {
@@ -78,4 +81,4 @@ class Language {
 	}
 }
 
-export {Language}
+export {Country}

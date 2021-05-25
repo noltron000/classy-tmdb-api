@@ -1,9 +1,9 @@
 import {
 	convertToEasyDate,
 	cleanseIsoCode,
-} from '../helpers/conversions.js'
+} from '../helpers/conversions.mjs'
 
-import {Config} from './config.js'
+import {Config} from './config.mjs'
 
 class Release {
 	#config

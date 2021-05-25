@@ -2,11 +2,11 @@ import {
 	convertToEasyDate,
 	convertToStarGrade,
 	cleanseIsoCode,
-} from '../helpers/conversions.js'
+} from '../helpers/conversions.mjs'
 
-import {Config} from './config.js'
-import {Movie} from './movie.js'
-import {User} from './user.js'
+import {Config} from './config.mjs'
+import {Movie} from './movie.mjs'
+import {User} from './user.mjs'
 
 class Review {
 	#config

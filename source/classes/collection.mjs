@@ -1,7 +1,7 @@
-import {Config} from './config.js'
-import {Image, Poster, Backdrop} from './image.js'
-import {List} from './list.js'
-import {Movie} from './movie.js'
+import {Config} from './config.mjs'
+import {Image, Poster, Backdrop} from './image.mjs'
+import {List} from './list.mjs'
+import {Movie} from './movie.mjs'
 
 class Collection {
 	#config

@@ -1,7 +1,7 @@
-import {cleanseIsoCode} from '../helpers/conversions.js'
+import {cleanseIsoCode} from '../helpers/conversions.mjs'
 
-import {Config} from './config.js'
-import {PopularOpinion} from './popular-opinion.js'
+import {Config} from './config.mjs'
+import {PopularOpinion} from './popular-opinion.mjs'
 
 class Image {
 	#config
