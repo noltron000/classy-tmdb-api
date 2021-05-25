@@ -4,118 +4,40 @@ export default {
 			"base_url":"http://image.tmdb.org/t/p/",
 			"secure_base_url":"https://image.tmdb.org/t/p/",
 			"backdrop_sizes":[
-				{
-					"type":"tag",
-					"value":"original"
-				},
-				{
-					"type":"w",
-					"value":1280
-				},
-				{
-					"type":"w",
-					"value":780
-				},
-				{
-					"type":"w",
-					"value":300
-				}
+				"w300",
+				"w780",
+				"w1280",
+				"original"
 			],
 			"logo_sizes":[
-				{
-					"type":"tag",
-					"value":"original"
-				},
-				{
-					"type":"w",
-					"value":500
-				},
-				{
-					"type":"w",
-					"value":300
-				},
-				{
-					"type":"w",
-					"value":185
-				},
-				{
-					"type":"w",
-					"value":154
-				},
-				{
-					"type":"w",
-					"value":92
-				},
-				{
-					"type":"w",
-					"value":45
-				}
+				"w45",
+				"w92",
+				"w154",
+				"w185",
+				"w300",
+				"w500",
+				"original"
 			],
 			"poster_sizes":[
-				{
-					"type":"tag",
-					"value":"original"
-				},
-				{
-					"type":"w",
-					"value":780
-				},
-				{
-					"type":"w",
-					"value":500
-				},
-				{
-					"type":"w",
-					"value":342
-				},
-				{
-					"type":"w",
-					"value":185
-				},
-				{
-					"type":"w",
-					"value":154
-				},
-				{
-					"type":"w",
-					"value":92
-				}
+				"w92",
+				"w154",
+				"w185",
+				"w342",
+				"w500",
+				"w780",
+				"original"
 			],
 			"profile_sizes":[
-				{
-					"type":"tag",
-					"value":"original"
-				},
-				{
-					"type":"h",
-					"value":632
-				},
-				{
-					"type":"w",
-					"value":185
-				},
-				{
-					"type":"w",
-					"value":45
-				}
+				"w45",
+				"w185",
+				"h632",
+				"original"
 			],
 			"still_sizes":[
-				{
-					"type":"tag",
-					"value":"original"
-				},
-				{
-					"type":"w",
-					"value":300
-				},
-				{
-					"type":"w",
-					"value":185
-				},
-				{
-					"type":"w",
-					"value":92
-				}
+				"w92",
+				"w185",
+				"w300",
+				"original"
 			]
 		},
 		"change_keys":[
