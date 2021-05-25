@@ -119,6 +119,12 @@ class Review {
 		this.assignDefaults( )
 	}
 
+	toJSON ( ) {
+		const json = {...this}
+		delete json.movie
+		return json
+	}
+
 	get #shared ( ) {
 		return {
 			review: this,
