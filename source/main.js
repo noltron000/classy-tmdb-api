@@ -1,6 +1,7 @@
 import {Collection} from './classes/collection.js'
 import {Comment} from './classes/comment.js'
 import {Company} from './classes/company.js'
+import {Config} from './classes/config.js'
 import {Country} from './classes/country.js'
 import {Genre} from './classes/genre.js'
 import {
@@ -24,6 +25,7 @@ export {
 	Collection,
 	Comment,
 	Company,
+	Config,
 	Country,
 	Genre,
 	Image,

@@ -4,13 +4,28 @@ import {
 	cleanseIsoCode,
 } from '../helpers/conversions.js'
 
-import {User} from './user.js'
+import {Config} from './config.js'
 import {Movie} from './movie.js'
+import {User} from './user.js'
 
 class Review {
-	constructor (data) {
-		this.assignDefaults( )
-		this.assignData(data)
+	#config
+	constructor (data = { }) {
+		let self = this  // allow forgetting of "this"
+		data = {...data}  // dont mutate input data
+		// If the data already has an instance of this class,
+		// 	then there is no point in creating a new instance.
+		// We can replace "self" instance, thus forgetting it.
+		if (data.review instanceof Review) {
+			self = data.review
+			delete data.review
+		}
+
+		self.assignDefaults( )
+		self.assignData(data)
+
+		// override the returning of "this".
+		return self
 	}
 
 	/* STEP 1: INITIALIZE CLASS STRUCTURE */
@@ -32,9 +47,15 @@ class Review {
 
 	/* STEP 2: CLEAN INPUT DATA */
 	assignData ({
+		config,
 		review,
 		movie,
 	}) {
+
+		//+ FIRST, PREPARE THE CONFIG +//
+		if (config != undefined) {
+			this.#config = new Config({...this.#shared, config})
+		}
 
 		//+ ASSIGN REVIEW DATA +//
 		if (review != undefined) {
@@ -70,7 +91,10 @@ class Review {
 
 				// Author Data.
 				if (review.author_details !== undefined) {
-					this.author.assignData({user: review.author_details})
+					this.author.assignData({
+						...this.#shared,
+						user: review.author_details,
+					})
 				}
 			}
 
@@ -93,6 +117,19 @@ class Review {
 
 		// Clean up class data.
 		this.assignDefaults( )
+	}
+
+	toJSON ( ) {
+		const json = {...this}
+		delete json.movie
+		return json
+	}
+
+	get #shared ( ) {
+		return {
+			review: this,
+			config: this.#config,
+		}
 	}
 
 	static matches (item01, item02) {

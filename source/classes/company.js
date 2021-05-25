@@ -1,11 +1,25 @@
-import {Logo} from './image.js'
+import {Config} from './config.js'
 import {Country} from './country.js'
-
+import {Logo} from './image.js'
 
 class Company {
+	#config
 	constructor (data = { }) {
-		this.assignDefaults( )
-		this.assignData(data)
+		let self = this  // allow forgetting of "this"
+		data = {...data}  // dont mutate input data
+		// If the data already has an instance of this class,
+		// 	then there is no point in creating a new instance.
+		// We can replace "self" instance, thus forgetting it.
+		if (data.company instanceof Company) {
+			self = data.company
+			delete data.company
+		}
+
+		self.assignDefaults( )
+		self.assignData(data)
+
+		// override the returning of "this".
+		return self
 	}
 
 	/* STEP 1: INITIALIZE CLASS STRUCTURE */
@@ -24,7 +38,15 @@ class Company {
 	}
 
 	/* STEP 2: CLEAN INPUT DATA */
-	assignData ({company}) {
+	assignData ({
+		config,
+		company,
+	}) {
+
+		//+ FIRST, PREPARE THE CONFIG +//
+		if (config != undefined) {
+			this.#config = new Config({...this.#shared, config})
+		}
 
 		//+ ASSIGN COMPANY DATA +//
 		if (company != undefined) {
@@ -69,6 +91,13 @@ class Company {
 
 	toJSON ( ) {
 		return this
+	}
+
+	get #shared ( ) {
+		return {
+			company: this,
+			config: this.#config,
+		}
 	}
 
 	static matches (item01, item02) {

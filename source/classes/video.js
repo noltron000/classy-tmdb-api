@@ -1,12 +1,29 @@
 import {cleanseIsoCode} from '../helpers/conversions.js'
-import {Thumbnail} from './image.js'
+
+import {Config} from './config.js'
 import {List} from './list.js'
+import {Thumbnail} from './image.js'
 
 class Video {
-	constructor (data) {
-		this.assignDefaults( )
-		this.assignData(data)
+	#config
+	constructor (data = { }) {
+		let self = this  // allow forgetting of "this"
+		data = {...data}  // dont mutate input data
+		// If the data already has an instance of this class,
+		// 	then there is no point in creating a new instance.
+		// We can replace "self" instance, thus forgetting it.
+		if (data.video instanceof Video) {
+			self = data.video
+			delete data.video
+		}
+
+		self.assignDefaults( )
+		self.assignData(data)
+
+		// override the returning of "this".
+		return self
 	}
+
 	/* STEP 1: INITIALIZE CLASS STRUCTURE */
 	assignDefaults ( ) {
 		this.ids ??= { }
@@ -25,7 +42,16 @@ class Video {
 	}
 
 	/* STEP 2: CLEAN INPUT DATA */
-	assignData ({video}) {
+	assignData ({
+		config,
+		video,
+	}) {
+
+		//+ FIRST, PREPARE THE CONFIG +//
+		if (config != undefined) {
+			this.#config = new Config({...this.#shared, config})
+		}
+
 		//+ ASSIGN VIDEO DATA +//
 		if (video != undefined) {
 			if (video.id !== undefined) {
@@ -85,6 +111,13 @@ class Video {
 
 	toJSON ( ) {
 		return this
+	}
+
+	get #shared ( ) {
+		return {
+			video: this,
+			config: this.#config,
+		}
 	}
 
 	static matches (item01, item02) {

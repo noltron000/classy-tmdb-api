@@ -1,11 +1,30 @@
-import {convertToStarGrade, convertToVulgarFraction} from '../helpers/conversions.js'
+import {
+	convertToStarGrade,
+	convertToVulgarFraction,
+} from '../helpers/conversions.js'
+
+import {Config} from './config.js'
 import {List} from './list.js'
 import {Review} from './review.js'
 
 class PopularOpinion {
+	#config
 	constructor (data = { }) {
-		this.assignDefaults( )
-		this.assignData(data)
+		let self = this  // allow forgetting of "this"
+		data = {...data}  // dont mutate input data
+		// If the data already has an instance of this class,
+		// 	then there is no point in creating a new instance.
+		// We can replace "self" instance, thus forgetting it.
+		if (data.polling instanceof PopularOpinion) {
+			self = data.polling
+			delete data.polling
+		}
+
+		self.assignDefaults( )
+		self.assignData(data)
+
+		// override the returning of "this".
+		return self
 	}
 
 	/* STEP 1: INITIALIZE CLASS STRUCTURE */
@@ -24,9 +43,15 @@ class PopularOpinion {
 
 	/* STEP 2: CLEAN INPUT DATA */
 	assignData ({
+		config,
 		polling,
 		reviews,
 	}) {
+
+		//+ FIRST, PREPARE THE CONFIG +//
+		if (config != undefined) {
+			this.#config = new Config({...this.#shared, config})
+		}
 
 		//+ ASSIGN POLLING DATA +//
 		if (polling != undefined) {
@@ -71,6 +96,15 @@ class PopularOpinion {
 		this.assignDefaults( )
 	}
 
+	toJSON ( ) {
+		const json = Object.assign({ }, this)
+		json.average = this.average
+		json.vulgarAverage = this.vulgarAverage
+		json.histogramCount = this.histogramCount
+		json.histogramMost = this.histogramMost
+		return json
+	}
+
 	get average ( )  {
 		return this.total / this.count
 	}
@@ -87,13 +121,11 @@ class PopularOpinion {
 		return Math.max(...Object.values(this.histogram))
 	}
 
-	toJSON ( ) {
-		const json = Object.assign({ }, this)
-		json.average = this.average
-		json.vulgarAverage = this.vulgarAverage
-		json.histogramCount = this.histogramCount
-		json.histogramMost = this.histogramMost
-		return json
+	get #shared ( ) {
+		return {
+			collection: this,
+			config: this.#config,
+		}
 	}
 }
 
