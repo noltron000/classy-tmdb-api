@@ -266,6 +266,15 @@ class Movie {
 			this.productionCompanies.add(...companies)
 		}
 
+		//+ ASSIGN IMAGES +//
+		if (images != undefined) {
+			// Prepare items to be used in the class constructor.
+			let imageBackdrops = images.backdrops.map((backdrop) => ({...this.#shared, backdrop}))
+			let imagePosters = images.posters.map((poster) => ({...this.#shared, poster}))
+			this.backdrops.add(...imageBackdrops)
+			this.posters.add(...imagePosters)
+		}
+
 		//+ ASSIGN POSTERS ARRAY +//
 		if (posters != undefined) {
 			// Prepare items to be used in the class constructor.
