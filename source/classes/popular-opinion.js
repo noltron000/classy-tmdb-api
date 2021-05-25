@@ -70,7 +70,7 @@ class PopularOpinion {
 		if (reviews != undefined) {
 
 			// Use reviews for histogram information.
-			reviews = new List(Review, ...reviews)
+			reviews = new List(Review, ...reviews.results)
 			reviews.forEach((review) => {
 				if (review.source === 'api') {
 					if (review.rating != undefined) {

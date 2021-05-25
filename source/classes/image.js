@@ -8,12 +8,22 @@ class Image {
 	constructor (data = { }, type = 'image') {
 		let self = this  // allow forgetting of "this"
 		data = {...data}  // dont mutate input data
+		// Sometimes the image type might be something else,
+		// 	especially if it is an extended class / subclass.
+		// For example, an avatar extends an image.
+		if (type !== 'image') {
+			data.image = data[type]
+			delete data[type]
+		}
 		// If the data already has an instance of this class,
 		// 	then there is no point in creating a new instance.
 		// We can replace "self" instance, thus forgetting it.
 		if (data.image instanceof Image && type === data.image.type) {
 			self = data.image
 			delete data.image
+		}
+		else {
+			self.type = type
 		}
 
 		self.assignDefaults( )
@@ -77,7 +87,7 @@ class Image {
 				}
 				else {
 					this.sizes.push(
-						...config
+						...this.#config
 						.images[`${this.type}Sizes`]
 						.map((imageSize) => {
 							let url = config.images.baseURL.secure ?? config.images.baseURL.default
@@ -161,38 +171,38 @@ class Image {
 }
 
 class Backdrop extends Image {
-	constructor ({backdrop}) {
-		super({image: backdrop}, 'backdrop')
+	constructor (data) {
+		super(data, 'backdrop')
 	}
 }
 
 class Poster extends Image {
-	constructor ({poster}) {
-		super({image: poster}, 'poster')
+	constructor (data) {
+		super(data, 'poster')
 	}
 }
 
 class Avatar extends Image {
-	constructor ({avatar}) {
-		super({image: avatar}, 'avatar')
+	constructor (data) {
+		super(data, 'avatar')
 	}
 }
 
 class Logo extends Image {
-	constructor ({logo}) {
-		super({image: logo}, 'logo')
+	constructor (data) {
+		super(data, 'logo')
 	}
 }
 
 class Still extends Image {
-	constructor ({still}) {
-		super({image: still}, 'still')
+	constructor (data) {
+		super(data, 'still')
 	}
 }
 
 class Thumbnail extends Image {
-	constructor ({thumbnail}) {
-		super({image: thumbnail}, 'thumbnail')
+	constructor (data) {
+		super(data, 'thumbnail')
 	}
 }
 

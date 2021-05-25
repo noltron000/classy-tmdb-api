@@ -48,13 +48,22 @@ class User {
 				this.username = user.username || undefined
 			}
 			if (user.avatar_path !== undefined) {
-				this.avatar = new Avatar({avatar: {file_path: user.avatar_path}})
+				this.avatar = new Avatar({
+					...this.#shared,
+					avatar: {file_path: user.avatar_path},
+				})
 			}
 			else if (user.avatar?.gravatar?.hash !== undefined) {
-				this.avatar = new Avatar({avatar: {file_path: `https://secure.gravatar.com/avatar/${user.avatar.gravatar.hash}`}})
+				this.avatar = new Avatar({
+					...this.#shared,
+					avatar: {file_path: `https://secure.gravatar.com/avatar/${user.avatar.gravatar.hash}`},
+				})
 			}
 			else {
-				this.avatar = new Avatar({avatar: {file_path: 'https://secure.gravatar.com/avatar/'}})
+				this.avatar = new Avatar({
+					...this.#shared,
+					avatar: {file_path: 'https://secure.gravatar.com/avatar/'},
+				})
 			}
 		}
 
@@ -62,9 +71,9 @@ class User {
 		this.assignDefaults( )
 	}
 
-	get #user ( ) {
+	get #shared ( ) {
 		return {
-			company: this,
+			user: this,
 			config: this.#config,
 		}
 	}

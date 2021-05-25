@@ -180,9 +180,9 @@ class Movie {
 			// These have a main value found from within the movie.
 			if (movie.backdrop_path !== undefined) {
 				this.backdrops.setMain({
-				...this.#shared,
-				backdrop: {file_path: movie.backdrop_path}
-			})
+					...this.#shared,
+					backdrop: {file_path: movie.backdrop_path}
+				})
 			}
 
 			if (movie.belongs_to_collection != undefined) {

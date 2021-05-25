@@ -75,13 +75,22 @@ class Company {
 
 			// Other resources.
 			if (company.logo_path !== undefined) {
-				this.logo = new Logo({logo: {file_path: company.logo_path}})
+				this.logo = new Logo({
+					...this.#shared,
+					logo: {file_path: company.logo_path},
+				})
 			}
 			if (company.origin_country !== undefined) {
-				this.originCountry = new Country({country: {'iso_3166_1': company.origin_country}})
+				this.originCountry = new Country({
+					...this.#shared,
+					country: {'iso_3166_1': company.origin_country},
+				})
 			}
 			if (company.parent_company !== undefined) {
-				this.parentCompany = new Company({company: {name: company.parent_company}})
+				this.parentCompany = new Company({
+					...this.#shared,
+					company: {name: company.parent_company},
+				})
 			}
 		}
 
