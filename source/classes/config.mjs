@@ -60,11 +60,11 @@ class Config {
 				return cleaned
 			}
 
-			this.images.backdropSizes = config.images.backdrop_sizes.map(size => cleanSize(size))
-			this.images.posterSizes =     config.images.poster_sizes.map(size => cleanSize(size))
-			this.images.avatarSizes =    config.images.profile_sizes.map(size => cleanSize(size))
-			this.images.logoSizes =         config.images.logo_sizes.map(size => cleanSize(size))
-			this.images.stillSizes =       config.images.still_sizes.map(size => cleanSize(size))
+			this.images.backdropSizes = config.images.backdrop_sizes.map(size => cleanSize(size)).reverse( )
+			this.images.posterSizes =     config.images.poster_sizes.map(size => cleanSize(size)).reverse( )
+			this.images.avatarSizes =    config.images.profile_sizes.map(size => cleanSize(size)).reverse( )
+			this.images.logoSizes =         config.images.logo_sizes.map(size => cleanSize(size)).reverse( )
+			this.images.stillSizes =       config.images.still_sizes.map(size => cleanSize(size)).reverse( )
 
 			config.changeKeys && (this.changeKeys = config.changeKeys)
 		}

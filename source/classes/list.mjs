@@ -55,7 +55,7 @@ class List extends Array {
 
 	toJSON ( ) {
 		const json = [ ]
-		json.push(this.main ?? null)
+		if (this.main != undefined) {json.push(this.main)}
 		json.push(...this.values)
 		return json
 	}
