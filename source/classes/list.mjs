@@ -12,19 +12,26 @@ class List extends Array {
 		))
 
 		values.forEach((value) => {
-			// Check if value is in current array.
-			const oldValue = [...this].find((oldValue) => (
-				this.ItemType.matches(oldValue, value)
-			))
-
-			// If value is in array, join original with new.
-			if (oldValue !== undefined) {
-				this.ItemType.combine(oldValue, value)
+			// Check if value is in the main position already.
+			if (this.ItemType.matches(this.main, value)) {
+				this.ItemType.combine(this.main, value)
 			}
 
-			// If value is not in array, add to array.
 			else {
-				this.push(value)
+				// Check if value is in current array.
+				const oldValue = [...this].find((oldValue) => (
+					this.ItemType.matches(oldValue, value)
+				))
+
+				// If value is in array, join with original and leave it.
+				if (oldValue !== undefined) {
+					this.ItemType.combine(oldValue, value)
+				}
+
+				// Just add it otherwise.
+				else {
+					this.push(value)
+				}
 			}
 		})
 	}
@@ -32,20 +39,33 @@ class List extends Array {
 	setMain (value) {
 		value = new this.ItemType(value)
 
-		// Check if value is in current array.
-		const oldValue = [...this].find((oldValue) => (
+		// Check if position is empty.
+		if (this.main == undefined) {
+			this.main = value
+		}
+
+		// Check if value is in the main position already.
+		else if (this.ItemType.matches(this.main, value)) {
+			this.ItemType.combine(this.main, value)
+		}
+
+		// Otherwise, something else is already in the main position.
+		else {
+			this.unshift(this.main)  // add the old item to the array.
+			this.main = value  // add this item to the main position.
+		}
+
+		// Check if value is also in current array.
+		const oldIndex = [...this].findIndex((oldValue) => (
 			this.ItemType.matches(oldValue, value)
 		))
 
 		// If value is in array, join with original and set to main.
-		if (oldValue !== undefined) {
+		if (oldIndex !== -1) {
+			const oldValue = [...this][oldIndex]
+			this.splice(0, oldIndex)  // remove this item from the array.
 			this.ItemType.combine(oldValue, value)
-			this.main = oldValue
-		}
-
-		// If value is not in array, set to main.
-		else {
-			this.main = value
+			this.main = oldValue  // add this item to the main position.
 		}
 	}
 

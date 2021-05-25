@@ -1,6 +1,6 @@
 {
 	"name": "classy-tmdb-api",
-	"version": "3.1.4",
+	"version": "3.1.5",
 	"description": "An api-wrapper for the-movie-db api v3. It returns javascript classes for its various imports and fetch calls.",
 	"main": "main.mjs",
 	"type": "module",

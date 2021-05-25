@@ -121,7 +121,7 @@ class Collection {
 
 	static matches (item01, item02) {
 		if (!(item01 instanceof Collection && item02 instanceof Collection)) {
-			throw new Error('Using Collection.matches( ) with an invalid object')
+			return false
 		}
 
 		return item01.ids.api === item02.ids.api
