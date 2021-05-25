@@ -1,6 +1,6 @@
-import data from './test-data.js'
+import data from './test-data.mjs'
 
-import {Movie} from './main.js'
+import {Movie} from './main.mjs'
 
 const eject = (instance) => (JSON.parse(JSON.stringify(instance)))
 

@@ -1,8 +1,8 @@
-import {cleanseIsoCode} from '../helpers/conversions.js'
+import {cleanseIsoCode} from '../helpers/conversions.mjs'
 
-import {Config} from './config.js'
-import {List} from './list.js'
-import {Thumbnail} from './image.js'
+import {Config} from './config.mjs'
+import {List} from './list.mjs'
+import {Thumbnail} from './image.mjs'
 
 class Video {
 	#config
