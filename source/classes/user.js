@@ -34,7 +34,7 @@ class User {
 
 		//+ FIRST, PREPARE THE CONFIG +//
 		if (config != undefined) {
-			this.#config = new Config({config})
+			this.#config = new Config({...this.#shared, config})
 		}
 
 		if (user != undefined) {
@@ -60,6 +60,13 @@ class User {
 
 		// Clean up class data.
 		this.assignDefaults( )
+	}
+
+	get #user ( ) {
+		return {
+			company: this,
+			config: this.#config,
+		}
 	}
 }
 

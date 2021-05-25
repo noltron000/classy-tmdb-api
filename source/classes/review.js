@@ -54,7 +54,7 @@ class Review {
 
 		//+ FIRST, PREPARE THE CONFIG +//
 		if (config != undefined) {
-			this.#config = new Config({config})
+			this.#config = new Config({...this.#shared, config})
 		}
 
 		//+ ASSIGN REVIEW DATA +//
@@ -91,7 +91,10 @@ class Review {
 
 				// Author Data.
 				if (review.author_details !== undefined) {
-					this.author.assignData({user: review.author_details})
+					this.author.assignData({
+						...this.#shared,
+						user: review.author_details,
+					})
 				}
 			}
 
@@ -114,6 +117,13 @@ class Review {
 
 		// Clean up class data.
 		this.assignDefaults( )
+	}
+
+	get #shared ( ) {
+		return {
+			review: this,
+			config: this.#config,
+		}
 	}
 
 	static matches (item01, item02) {

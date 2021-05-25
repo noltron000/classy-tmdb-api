@@ -68,6 +68,12 @@ class Config {
 			config.changeKeys && (this.changeKeys = config.changeKeys)
 		}
 
+	get #shared ( ) {
+		return {
+			config: this
+		}
+	}
+
 		// Clean up class data.
 		this.assignDefaults( )
 	}

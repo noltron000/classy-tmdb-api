@@ -31,11 +31,18 @@ class Comment {
 
 		//+ FIRST, PREPARE THE CONFIG +//
 		if (config != undefined) {
-			this.#config = new Config({config})
+			this.#config = new Config({...this.#shared, config})
 		}
 
 		// Clean up class data.
 		this.assignDefaults( )
+	}
+
+	get #shared ( ) {
+		return {
+			comment: this,
+			config: this.#config,
+		}
 	}
 }
 

@@ -36,7 +36,7 @@ class Country {
 
 		//+ FIRST, PREPARE THE CONFIG +//
 		if (config != undefined) {
-		this.#config = new Config({config})
+		this.#config = new Config({...this.#shared, config})
 		}
 
 		//+ ASSIGN COUNTRY DATA +//
@@ -58,6 +58,13 @@ class Country {
 
 	toJSON ( ) {
 		return this
+	}
+
+	get #shared ( ) {
+		return {
+			country: this,
+			config: this.#config,
+		}
 	}
 
 	static matches (item01, item02) {

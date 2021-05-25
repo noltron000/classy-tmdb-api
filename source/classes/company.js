@@ -45,7 +45,7 @@ class Company {
 
 		//+ FIRST, PREPARE THE CONFIG +//
 		if (config != undefined) {
-			this.#config = new Config({config})
+			this.#config = new Config({...this.#shared, config})
 		}
 
 		//+ ASSIGN COMPANY DATA +//
@@ -91,6 +91,13 @@ class Company {
 
 	toJSON ( ) {
 		return this
+	}
+
+	get #shared ( ) {
+		return {
+			company: this,
+			config: this.#config,
+		}
 	}
 
 	static matches (item01, item02) {

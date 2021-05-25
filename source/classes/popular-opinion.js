@@ -50,7 +50,7 @@ class PopularOpinion {
 
 		//+ FIRST, PREPARE THE CONFIG +//
 		if (config != undefined) {
-			this.#config = new Config({config})
+			this.#config = new Config({...this.#shared, config})
 		}
 
 		//+ ASSIGN POLLING DATA +//
@@ -96,6 +96,15 @@ class PopularOpinion {
 		this.assignDefaults( )
 	}
 
+	toJSON ( ) {
+		const json = Object.assign({ }, this)
+		json.average = this.average
+		json.vulgarAverage = this.vulgarAverage
+		json.histogramCount = this.histogramCount
+		json.histogramMost = this.histogramMost
+		return json
+	}
+
 	get average ( )  {
 		return this.total / this.count
 	}
@@ -112,13 +121,11 @@ class PopularOpinion {
 		return Math.max(...Object.values(this.histogram))
 	}
 
-	toJSON ( ) {
-		const json = Object.assign({ }, this)
-		json.average = this.average
-		json.vulgarAverage = this.vulgarAverage
-		json.histogramCount = this.histogramCount
-		json.histogramMost = this.histogramMost
-		return json
+	get #shared ( ) {
+		return {
+			collection: this,
+			config: this.#config,
+		}
 	}
 }
 

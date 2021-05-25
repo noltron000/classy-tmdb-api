@@ -5,7 +5,7 @@ import {PopularOpinion} from './popular-opinion.js'
 
 class Image {
 	#config
-	constructor (data = { }) {
+	constructor (data = { }, type = 'image') {
 		let self = this  // allow forgetting of "this"
 		data = {...data}  // dont mutate input data
 		// If the data already has an instance of this class,
@@ -44,7 +44,7 @@ class Image {
 
 		//+ FIRST, PREPARE THE CONFIG +//
 		if (config != undefined) {
-			this.#config = new Config({config})
+			this.#config = new Config({...this.#shared, config})
 		}
 
 		//+ ASSIGN IMAGE DATA +//
@@ -120,6 +120,7 @@ class Image {
 
 			// Add opinions from the image data.
 			this.ratings.assignData({
+				...this.#shared,
 				data: {vote_count: image.vote_count, vote_average: image.vote_average},
 			})
 		}
@@ -138,6 +139,13 @@ class Image {
 		return this.originalWidth / this.originalHeight
 	}
 
+	get #shared ( ) {
+		return {
+			[this.type]: this,
+			config: this.#config,
+		}
+	}
+
 	static matches (item01, item02) {
 		if (!(item01 instanceof Image && item02 instanceof Image)) {
 			throw new Error('Using Image.matches( ) with an invalid object')
@@ -154,37 +162,37 @@ class Image {
 
 class Backdrop extends Image {
 	constructor ({backdrop}) {
-		super('backdrop', {image: backdrop})
+		super({image: backdrop}, 'backdrop')
 	}
 }
 
 class Poster extends Image {
 	constructor ({poster}) {
-		super('poster', {image: poster})
+		super({image: poster}, 'poster')
 	}
 }
 
 class Avatar extends Image {
 	constructor ({avatar}) {
-		super('avatar', {image: avatar})
+		super({image: avatar}, 'avatar')
 	}
 }
 
 class Logo extends Image {
 	constructor ({logo}) {
-		super('logo', {image: logo})
+		super({image: logo}, 'logo')
 	}
 }
 
 class Still extends Image {
 	constructor ({still}) {
-		super('still', {image: still})
+		super({image: still}, 'still')
 	}
 }
 
 class Thumbnail extends Image {
 	constructor ({thumbnail}) {
-		super('thumbnail', {image: thumbnail})
+		super({image: thumbnail}, 'thumbnail')
 	}
 }
 

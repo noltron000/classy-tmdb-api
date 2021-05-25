@@ -36,7 +36,7 @@ class Language {
 
 		//+ FIRST, PREPARE THE CONFIG +//
 		if (config != undefined) {
-			this.#config = new Config({config})
+			this.#config = new Config({...this.#shared, config})
 		}
 
 		//+ ASSIGN LANGUAGE DATA +//
@@ -55,6 +55,13 @@ class Language {
 
 	toJSON ( ) {
 		return this
+	}
+
+	get #shared ( ) {
+		return {
+			language: this,
+			config: this.#config,
+		}
 	}
 
 	static matches (item01, item02) {

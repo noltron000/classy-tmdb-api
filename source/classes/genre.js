@@ -37,7 +37,7 @@ class Genre {
 	}) {
 		//+ FIRST, PREPARE THE CONFIG +//
 		if (config != undefined) {
-			this.#config = new Config({config})
+			this.#config = new Config({...this.#shared, config})
 		}
 
 		//+ ASSIGN GENRE DATA +//
@@ -60,6 +60,13 @@ class Genre {
 
 	toJSON ( ) {
 		return this
+	}
+
+	get #shared ( ) {
+		return {
+			genre: this,
+			config: this.#config,
+		}
 	}
 
 	static matches (item01, item02) {

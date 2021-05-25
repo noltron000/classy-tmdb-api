@@ -47,7 +47,7 @@ class Collection {
 
 		//+ FIRST, PREPARE THE CONFIG +//
 		if (config != undefined) {
-			this.#config = new Config({config})
+			this.#config = new Config({...this.#shared, config})
 		}
 
 		//+ ADD COLLECTION DATA +//
@@ -69,17 +69,23 @@ class Collection {
 
 			// Set primary items.
 			if (collection.poster_path !== undefined) {
-				this.posters.setMain({poster: {file_path: collection.poster_path}})
+				this.posters.setMain({
+					...this.#shared,
+					poster: {file_path: collection.poster_path},
+				})
 			}
 
 			if (collection.backdrop_path !== undefined) {
-				this.backdrops.setMain({backdrop: {file_path: collection.backdrop_path}})
+				this.backdrops.setMain({
+					...this.#shared,
+					backdrop: {file_path: collection.backdrop_path},
+				})
 			}
 
 			// Spread out the parts.
 			if (collection.parts != undefined) {
 				let collectionParts = collection.parts
-				collectionParts = collectionParts.map((part) => ({movie: part}))
+				collectionParts = collectionParts.map((part) => ({...this.#shared, movie: part}))
 				this.parts.add(...collectionParts)
 			}
 		}
@@ -87,14 +93,14 @@ class Collection {
 		//+ ASSIGN BACKDROPS ARRAY +//
 		if (backdrops != undefined) {
 			// Prepare items to be used in the class constructor.
-			backdrops = backdrops.map((backdrop) => ({backdrop}))
+			backdrops = backdrops.map((backdrop) => ({...this.#shared, backdrop}))
 			this.backdrops.add(...backdrops)
 		}
 
 		//+ ASSIGN POSTERS ARRAY +//
 		if (posters != undefined) {
 			// Prepare items to be used in the class constructor.
-			posters = posters.map((poster) => ({poster}))
+			posters = posters.map((poster) => ({...this.#shared, poster}))
 			this.posters.add(...posters)
 		}
 
@@ -104,6 +110,13 @@ class Collection {
 
 	toJSON ( ) {
 		return this
+	}
+
+	get #shared ( ) {
+		return {
+			collection: this,
+			config: this.#config,
+		}
 	}
 
 	static matches (item01, item02) {

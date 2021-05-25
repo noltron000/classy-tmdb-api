@@ -105,7 +105,7 @@ class Movie {
 
 		//+ FIRST, PREPARE THE CONFIG +//
 		if (config != undefined) {
-			this.#config = new Config({config})
+			this.#config = new Config({...this.#shared, config})
 		}
 
 		//+ ASSIGN MOVIE DATA +//
@@ -179,52 +179,68 @@ class Movie {
 			// References to other resources.
 			// These have a main value found from within the movie.
 			if (movie.backdrop_path !== undefined) {
-				this.backdrops.setMain({backdrop: {file_path: movie.backdrop_path}})
+				this.backdrops.setMain({
+				...this.#shared,
+				backdrop: {file_path: movie.backdrop_path}
+			})
 			}
 
 			if (movie.belongs_to_collection != undefined) {
-				this.collections.setMain({collection: movie.belongs_to_collection})
+				this.collections.setMain({
+					...this.#shared,
+					collection: movie.belongs_to_collection
+				})
 			}
 
 			if (movie.backdrop_path !== undefined) {
-				this.languages.setMain({language: {iso_639_1: movie.original_language}})
+				this.languages.setMain({
+					...this.#shared,
+					language: {iso_639_1: movie.original_language}
+				})
 			}
 
 			if (movie.poster_path !== undefined) {
-				this.posters.setMain({poster: {file_path: movie.poster_path}})
+				this.posters.setMain({
+				...this.#shared,
+				poster: {file_path: movie.poster_path}
+			})
 			}
 
 			if (movie.release_date !== undefined) {
-				this.releases.setMain({release: {release_date: movie.release_date}})
+				this.releases.setMain({
+					...this.#shared,
+					release: {release_date: movie.release_date}
+				})
 			}
 
 			// Add data from movie source.
 			if (movie.genres != undefined) {
 				let movieGenres = movie.genres
-				movieGenres = movieGenres.map((genre) => ({genre, movie: this}))
+				movieGenres = movieGenres.map((genre) => ({...this.#shared, genre}))
 				this.genres.add(...movieGenres)
 			}
 
 			if (movie.languages != undefined) {
 				let movieLanguages = movie.languages
-				movieLanguages = movieLanguages.map((language) => ({language, movie: this}))
+				movieLanguages = movieLanguages.map((language) => ({...this.#shared, language}))
 				this.languages.add(...movieLanguages)
 			}
 
 			if (movie.production_companies != undefined) {
 				let movieCompanies = movie.production_companies
-				movieCompanies = movieCompanies.map((company) => ({company, movie: this}))
+				movieCompanies = movieCompanies.map((company) => ({...this.#shared, company,}))
 				this.productionCompanies.add(...movieCompanies)
 			}
 
 			if (movie.production_countries != undefined) {
 				let movieCountries = movie.production_countries
-				movieCountries = movieCountries.map((country) => ({country, movie: this}))
+				movieCountries = movieCountries.map((country) => ({...this.#shared, country, }))
 				this.productionCountries.add(...movieCountries)
 			}
 
 			// Add opinions from the movie data.
 			this.ratings.assignData({
+				...this.#shared,
 				polling: {vote_count: movie.vote_count, vote_average: movie.vote_average},
 			})
 		}
@@ -232,28 +248,28 @@ class Movie {
 		//+ ASSIGN BACKDROPS ARRAY +//
 		if (backdrops != undefined) {
 			// Prepare items to be used in the class constructor.
-			backdrops = backdrops.map((backdrop) => ({backdrop, movie: this}))
+			backdrops = backdrops.map((backdrop) => ({...this.#shared, backdrop}))
 			this.backdrops.add(...backdrops)
 		}
 
 		//+ ASSIGN COLLECTIONS ARRAY +//
 		if (collections != undefined) {
 			// Prepare items to be used in the class constructor.
-			collections = collections.map((collection) => ({collection, movie: this}))
+			collections = collections.map((collection) => ({...this.#shared, collection}))
 			this.collections.add(...collections)
 		}
 
 		//+ ASSIGN COMPANIES ARRAY +//
 		if (companies != undefined) {
 			// Prepare items to be used in the class constructor.
-			companies = companies.map((company) => ({company, movie: this}))
+			companies = companies.map((company) => ({...this.#shared, company}))
 			this.productionCompanies.add(...companies)
 		}
 
 		//+ ASSIGN POSTERS ARRAY +//
 		if (posters != undefined) {
 			// Prepare items to be used in the class constructor.
-			posters = posters.map((poster) => ({poster, movie: this}))
+			posters = posters.map((poster) => ({...this.#shared, poster}))
 			this.posters.add(...posters)
 		}
 
@@ -263,24 +279,24 @@ class Movie {
 			releases = releases.results.map((isoGroup) => {
 				const iso_3166_1 = isoGroup.iso_3166_1
 				return isoGroup.release_dates.map((release) => ({...release, iso_3166_1}))
-			}).flat( ).map((release) => ({release, movie: this}))
+			}).flat( ).map((release) => ({...this.#shared, release}))
 			this.releases.add(...releases)
 		}
 
 		//+ ASSIGN REVIEWS ARRAY +//
 		if (reviews != undefined) {
-			// Prepare items to be used in the class constructor.
-			reviews = reviews.results.map((review) => ({review, movie: this}))
-			this.reviews.add(...reviews)
-
 			// Add opinions from the review data.
-			this.ratings.assignData({reviews})
+			this.ratings.assignData({...this.#shared, reviews})
+
+			// Prepare items to be used in the class constructor.
+			reviews = reviews.results.map((review) => ({...this.#shared, review}))
+			this.reviews.add(...reviews)
 		}
 
 		//+ ASSIGN VIDEOS ARRAY +//
 		if (videos != undefined) {
 			// Prepare items to be used in the class constructor.
-			videos = videos.results.map((video) => ({video, movie: this}))
+			videos = videos.results.map((video) => ({...this.#shared, video}))
 			this.videos.add(...videos)
 		}
 
@@ -290,6 +306,13 @@ class Movie {
 
 	toJSON ( ) {
 		return this
+	}
+
+	get #shared ( ) {
+		return {
+			movie: this,
+			config: this.#config,
+		}
 	}
 
 	static matches (item01, item02) {
