@@ -98,7 +98,7 @@ class Release {
 
 	static matches (item01, item02) {
 		if (!(item01 instanceof Release && item02 instanceof Release)) {
-			throw new Error('Using Release.matches( ) with an invalid object')
+			return false
 		}
 
 		return item01.releaseDate?.stamp === item02.releaseDate?.stamp

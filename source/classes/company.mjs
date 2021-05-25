@@ -111,7 +111,7 @@ class Company {
 
 	static matches (item01, item02) {
 		if (!(item01 instanceof Company && item02 instanceof Company)) {
-			throw new Error('Using Company.matches( ) with an invalid object')
+			return false
 		}
 
 		return item01.ids.api === item02.ids.api

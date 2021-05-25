@@ -69,7 +69,7 @@ class Country {
 
 	static matches (item01, item02) {
 		if (!(item01 instanceof Country && item02 instanceof Country)) {
-			throw new Error('Using Country.matches( ) with an invalid object')
+			return false
 		}
 
 		return item01.name === item02.name

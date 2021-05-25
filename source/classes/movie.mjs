@@ -326,7 +326,7 @@ class Movie {
 
 	static matches (item01, item02) {
 		if (!(item01 instanceof Movie && item02 instanceof Movie)) {
-			throw new Error('Using Movie.matches( ) with an invalid object')
+			return false
 		}
 
 		return item01.ids.api === item02.ids.api

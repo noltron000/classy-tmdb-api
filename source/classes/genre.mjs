@@ -71,7 +71,7 @@ class Genre {
 
 	static matches (item01, item02) {
 		if (!(item01 instanceof Genre && item02 instanceof Genre)) {
-			throw new Error('Using Genre.matches( ) with an invalid object')
+			return false
 		}
 
 		return item01.ids.api === item02.ids.api
