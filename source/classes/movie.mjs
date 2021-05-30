@@ -111,6 +111,21 @@ class Movie {
 		//+ ASSIGN MOVIE DATA +//
 		if (movie != undefined) {
 
+			// Redeclare non-existant resources.
+			// Useful with "append_to_response" request query in the api.
+			if (movie.images !== undefined && images !== undefined) {
+				images = movie.images
+			}
+			if (movie.releases !== undefined && releases !== undefined) {
+				releases = movie.releases
+			}
+			if (movie.reviews !== undefined && reviews !== undefined) {
+				reviews = movie.reviews
+			}
+			if (movie.videos !== undefined && videos !== undefined) {
+				videos = movie.videos
+			}
+
 			// External identification.
 			if (movie.id !== undefined) {
 				this.ids.api = movie.id
