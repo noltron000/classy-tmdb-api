@@ -4,14 +4,13 @@
 | Method Tags                       | Method Name &amp; Params |
 |:---------------------------------:|:------------------------ |
 |                                   | `constructor({data})`    |
-|                                   | `assignDefaults( )`      |
 |                                   | `assignData({data})`     |
-| <kbd>PRIVATE</kbd> <kbd>GET</kbd> | `sharedMetadata( )`      |
-| <kbd>STATIC</kbd>                 | `toJSON( )`              |
+|                                   | `toJSON( )`              |
 | <kbd>STATIC</kbd>                 | `parseFromAPI({data})`   |
 | <kbd>STATIC</kbd>                 | `parseFromDB({data})`    |
 | <kbd>STATIC</kbd>                 | `matches(...instances)`  |
 | <kbd>STATIC</kbd>                 | `combine(...instances)`  |
+| <kbd>PRIVATE</kbd> <kbd>GET</kbd> | `sharedMetadata( )`      |
 
 #### `constructor(data)`
 This method is a typical JavaScript class instance constructor function.
