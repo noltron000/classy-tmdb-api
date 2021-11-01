@@ -43,9 +43,20 @@ class Genre {
 	}
 
 
-	/* STEP 3: ASSIGN CLEAN DATA INPUT TO THE INSTANCE */
+	/* STEP 3: CLEAN AND ASSIGN DATA INPUT TO THE INSTANCE */
 	assignData ({genre}) {
-		//+ ASSIGN GENRE DATA +//
+		//+ CLEAN THE GENRE DATA +//
+		if (genre == null) {
+			return
+		}
+		else if (genre.ids == null) {
+			({genre} = Genre.parseFromAPI({genre}))
+		}
+		else {
+			({genre} = Genre.parseFromDB({genre}))
+		}
+
+		//+ ASSIGN THE GENRE DATA +//
 		this.ids.TMDb = genre.ids.TMDb
 		this.name = genre.name
 	}
@@ -57,15 +68,15 @@ class Genre {
 
 
 	static parseFromAPI ({genre}) {
-		return {genre}
+		const newGenre = eject(new Genre())
+		newGenre.ids.TMDb = genre.id
+		newGenre.name = genre.name
+		return {genre: newGenre}
 	}
 
 
-	static parseFromDB (data) {
-		throw new Error(
-			'`Genre.parseFromDB( )` is not a valid method!'
-			+ '\nGenres only come from the (TMDb) API.'
-		)
+	static parseFromDB ({genre}) {
+		return {genre}
 	}
 
 
