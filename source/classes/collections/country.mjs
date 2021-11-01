@@ -43,7 +43,7 @@ class Country {
 
 	/* STEP 3: CLEAN AND ASSIGN DATA INPUT TO THE INSTANCE */
 	assignData ({country}) {
-		//+ CLEAN THE GENRE DATA +//
+		//+ CLEAN THE COUNTRY DATA +//
 		if (country == null) {
 			return
 		}
@@ -54,7 +54,7 @@ class Country {
 			({country} = Country.parseFromDB({country}))
 		}
 
-		//+ ASSIGN THE GENRE DATA +//
+		//+ ASSIGN THE COUNTRY DATA +//
 		this['iso3166-1'] = country['iso3166-1']
 		this.name = country.name
 	}
